@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>{{ title or "Portfolio" }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
+    <script defer src="{{ url_for('static', path='me.js') }}"></script>
+
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="container nav">
+        <a class="brand" href="/">My Portfolio</a>
+        {% set path = request.url.path %}
+        <ul class="links">
+          <li><a href="/" class="{{ 'active' if path == '/' else '' }}">Home</a></li>
+          <li><a href="/introduction" class="{{ 'active' if path.startswith('/introduction') else '' }}">Introduction</a></li>
+          <li><a href="/tab1" class="{{ 'active' if path.startswith('/tab1') else '' }}">Tab1</a></li>
+          <li><a href="/tab2" class="{{ 'active' if path.startswith('/tab2') else '' }}">Tab2</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="container">
+      {% if request.query_params.get('sent') %}
+        <div class="flash flash-success">Thanks! Your message was received (demo).</div>
+      {% endif %}
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">© {{ 2025 }} Alysa Derks</div>
+    </footer>
+  </body>
+</html>
+
