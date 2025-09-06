@@ -11,13 +11,19 @@
   <body>
     <header class="site-header">
       <nav class="container nav">
-        <a class="brand" href="/">My Portfolio</a>
+        <a class="brand" href="/">CSCI 5612</a>
         {% set path = request.url.path %}
         <ul class="links">
           <li><a href="/" class="{{ 'active' if path == '/' else '' }}">Home</a></li>
           <li><a href="/introduction" class="{{ 'active' if path.startswith('/introduction') else '' }}">Introduction</a></li>
-          <li><a href="/tab1" class="{{ 'active' if path.startswith('/tab1') else '' }}">Tab1</a></li>
-          <li><a href="/tab2" class="{{ 'active' if path.startswith('/tab2') else '' }}">Tab2</a></li>
+          <li><a href="/tab1" class="{{ 'active' if path.startswith('/tab1') else '' }}">Data Prep</a></li>
+          <li><a href="/tab2" class="{{ 'active' if path.startswith('/tab2') else '' }}">Clustering</a></li>
+          <li><a href="/tab3" class="{{ 'active' if path.startswith('/tab3') else '' }}">PCA</a></li>
+          <li><a href="/tab4" class="{{ 'active' if path.startswith('/tab3') else '' }}">DT</a></li>
+          <li><a href="/tab5" class="{{ 'active' if path.startswith('/tab3') else '' }}">NB</a></li>
+          <li><a href="/tab6" class="{{ 'active' if path.startswith('/tab3') else '' }}">SVM</a></li>
+          <li><a href="/tab7" class="{{ 'active' if path.startswith('/tab3') else '' }}">Regression</a></li>
+          <li><a href="/tab8" class="{{ 'active' if path.startswith('/tab3') else '' }}">NN</a></li>
         </ul>
       </nav>
     </header>

@@ -1,0 +1,85 @@
+timestamp_utc,park_id,land,ride,wait_time,is_open,last_updated
+2025-09-06T20:52:37.010500+00:00,6,Adventureland,A Pirate's Adventure ~ Treasures of the Seven Seas,0,True,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Adventureland,Jungle Cruise,0,False,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Adventureland,Pirates of the Caribbean,40,True,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Adventureland,Swiss Family Treehouse,0,False,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Adventureland,The Magic Carpets of Aladdin,0,False,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Adventureland,Walt Disney's Enchanted Tiki Room,0,True,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Fantasyland,"""it's a small world""",30,True,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Fantasyland,Casey Jr. Splash 'N' Soak Station,0,True,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Fantasyland,Cinderella Castle,0,True,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Fantasyland,Dumbo the Flying Elephant,0,False,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Fantasyland,Enchanted Tales with Belle,25,True,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Fantasyland,Mad Tea Party,15,True,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Fantasyland,Meet Ariel at Her Grotto,50,True,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Fantasyland,Meet Cinderella and a Visiting Princess at Princess Fairytale Hall,35,True,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Fantasyland,Meet Daring Disney Pals as Circus Stars at Pete's Silly Sideshow,50,True,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Fantasyland,Meet Dashing Disney Pals as Circus Stars at Pete's Silly Sideshow,60,True,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Fantasyland,Meet Princess Tiana and a Visiting Princess at Princess Fairytale Hall,25,True,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Fantasyland,Mickey's PhilharMagic,10,True,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Fantasyland,Peter Pan's Flight,55,True,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Fantasyland,Prince Charming Regal Carrousel,10,True,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Fantasyland,Seven Dwarfs Mine Train,0,False,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Fantasyland,The Barnstormer,0,False,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Fantasyland,The Many Adventures of Winnie the Pooh,55,True,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Fantasyland,Under the Sea - Journey of The Little Mermaid,45,True,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Fantasyland,Walt Disney World Railroad - Fantasyland,0,False,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Frontierland,Big Thunder Mountain Railroad,0,False,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Frontierland,Country Bear Musical Jamboree,10,True,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Frontierland,Tiana's Bayou Adventure,0,False,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Liberty Square,Haunted Mansion,45,True,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Liberty Square,The Hall of Presidents,15,True,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,"Main Street, U.S.A.",Main Street Vehicles,0,False,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,"Main Street, U.S.A.",Meet Mickey at Town Square Theater,35,True,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,"Main Street, U.S.A.","Walt Disney World Railroad - Main Street, U.S.A.",0,False,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Tomorrowland,Astro Orbiter,0,False,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Tomorrowland,Buzz Lightyear's Space Ranger Spin,0,False,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Tomorrowland,Monsters Inc. Laugh Floor,15,True,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Tomorrowland,Space Mountain,40,True,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Tomorrowland,Tomorrowland Speedway,0,False,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Tomorrowland,Tomorrowland Transit Authority PeopleMover,25,True,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Tomorrowland,TRON Lightcycle / Run,65,True,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Tomorrowland,Walt Disney's Carousel of Progress,5,True,2025-09-06T20:50:24.000Z
+2025-09-06T20:52:37.010500+00:00,6,Other,Trick-or-Treat Locations at Mickey's Not-So-Scary Halloween Party,0,True,2025-09-06T20:50:24.000Z
+2025-09-06T21:07:37.209985+00:00,6,Adventureland,A Pirate's Adventure ~ Treasures of the Seven Seas,0,True,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Adventureland,Jungle Cruise,0,False,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Adventureland,Pirates of the Caribbean,40,True,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Adventureland,Swiss Family Treehouse,0,False,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Adventureland,The Magic Carpets of Aladdin,0,False,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Adventureland,Walt Disney's Enchanted Tiki Room,0,True,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Fantasyland,"""it's a small world""",30,True,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Fantasyland,Casey Jr. Splash 'N' Soak Station,0,True,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Fantasyland,Cinderella Castle,0,True,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Fantasyland,Dumbo the Flying Elephant,0,False,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Fantasyland,Enchanted Tales with Belle,30,True,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Fantasyland,Mad Tea Party,20,True,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Fantasyland,Meet Ariel at Her Grotto,55,True,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Fantasyland,Meet Cinderella and a Visiting Princess at Princess Fairytale Hall,35,True,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Fantasyland,Meet Daring Disney Pals as Circus Stars at Pete's Silly Sideshow,50,True,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Fantasyland,Meet Dashing Disney Pals as Circus Stars at Pete's Silly Sideshow,60,True,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Fantasyland,Meet Princess Tiana and a Visiting Princess at Princess Fairytale Hall,20,True,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Fantasyland,Mickey's PhilharMagic,10,True,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Fantasyland,Peter Pan's Flight,65,True,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Fantasyland,Prince Charming Regal Carrousel,10,True,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Fantasyland,Seven Dwarfs Mine Train,0,False,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Fantasyland,The Barnstormer,0,False,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Fantasyland,The Many Adventures of Winnie the Pooh,50,True,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Fantasyland,Under the Sea - Journey of The Little Mermaid,40,True,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Fantasyland,Walt Disney World Railroad - Fantasyland,0,False,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Frontierland,Big Thunder Mountain Railroad,0,False,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Frontierland,Country Bear Musical Jamboree,10,True,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Frontierland,Tiana's Bayou Adventure,0,False,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Liberty Square,Haunted Mansion,50,True,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Liberty Square,The Hall of Presidents,15,True,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,"Main Street, U.S.A.",Main Street Vehicles,0,False,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,"Main Street, U.S.A.",Meet Mickey at Town Square Theater,45,True,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,"Main Street, U.S.A.","Walt Disney World Railroad - Main Street, U.S.A.",0,False,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Tomorrowland,Astro Orbiter,0,False,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Tomorrowland,Buzz Lightyear's Space Ranger Spin,0,False,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Tomorrowland,Monsters Inc. Laugh Floor,15,True,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Tomorrowland,Space Mountain,60,True,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Tomorrowland,Tomorrowland Speedway,0,False,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Tomorrowland,Tomorrowland Transit Authority PeopleMover,15,True,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Tomorrowland,TRON Lightcycle / Run,90,True,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Tomorrowland,Walt Disney's Carousel of Progress,5,True,2025-09-06T21:05:52.000Z
+2025-09-06T21:07:37.209985+00:00,6,Other,Trick-or-Treat Locations at Mickey's Not-So-Scary Halloween Party,0,True,2025-09-06T21:05:52.000Z
