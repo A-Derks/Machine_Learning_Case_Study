@@ -1,6 +1,50 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>Introduction</h1>
-<p>Write your introduction here—who you are, your goals, what this portfolio covers.</p>
-<p>Tip: Add a short paragraph about the APIs you integrated and what they demonstrate.</p>
+<p>Disney theme parks are more than just amusement parks; they are cultural landmarks that attract
+    millions of visitors from all over the world each year. Since the opening of Disneyland in 1955 and
+    Walt Disney World in 1971, families have traveled long distances and made major investments of time
+    and money to experience the magic firsthand. Visitors come for the chance to step into immersive stories,
+    meet beloved characters, and ride attractions that have become iconic pieces of global entertainment. For
+    many, a Disney trip is a once-in-a-lifetime opportunity, and expectations are understandably high. Yet, as
+    enchanting as the parks may be, the sheer popularity of Disney also presents a challenge: massive crowds and
+    long wait times. Guests often spend hours in line, and this waiting can shape their overall perception of
+    their trip. A day that feels dominated by waiting may leave visitors frustrated, while a smoother experience
+    can create memories of joy and wonder. Because of this, managing time and crowds has always been a central
+    part of what it means to visit Disney.</p>
+<p>Wait times are not just an inconvenience for guests; they have ripple effects that touch every part of Disney’s
+    operations. Families who spend more time waiting in line may spend less money on dining or shopping, reducing
+    Disney’s revenue opportunities. Crowds concentrated in certain areas can also create safety risks and diminish
+    the sense of comfort and enjoyment that the company strives to deliver. Disney has experimented with solutions
+    like FastPass, Genie+, and virtual queues, while fans and travel communities have built their own strategies
+    and planning tools. Still, wait times remain unpredictable, shaped by weather, holidays, and unexpected ride
+    closures. This makes them a defining part of the Disney experience and a problem that still needs attention.
+    Beyond Disney, lessons about how to manage crowds and human behavior in shared spaces carry over to airports,
+    stadiums, and even city planning. Understanding why wait times happen, how they affect people, and how they
+    might be better managed has value far beyond a single day at the park.</p>
+
+<img src="{{ url_for('static', path='figures/wdw_lines.png') }}" alt="WDW Lines" width="600">
+
+    <p>Questions:</p>
+
+    <p>1.How do wait times fluctuate throughout the day, and what consistent patterns emerge in morning, afternoon, and evening periods?</p>
+
+    <p>2. How do peak daily wait times compare to average daily wait times, and what does this show about variability and predictability of waits?</p>
+
+    <p>3. Which features (weather, holidays, ride type, park capacity, time of day) provide the strongest predictive power in wait time models?</p>
+
+    <p>4. What seasonal or monthly patterns can be observed in wait times, and how do special events or holidays amplify these effects?</p>
+
+    <p>5. How do wait times differ between weekdays and weekends, and what implications does this have for guest planning and staffing?</p>
+
+    <p>6. What clusters of rides or days emerge from grouping wait time patterns, and what do these clusters reveal about ride popularity or crowd behavior?</p>
+
+    <p>7. What metrics are most appropriate for evaluating the accuracy of wait time predictions, and why?</p>
+
+    <p>8. How do weather conditions, such as temperature or rainfall, affect both ride availability and guest behavior in the parks?</p>
+
+    <p>9. Which rides experience the most downtime or closures, and how does this impact overall park wait time distributions?</p>
+
+    <p>10. What overall patterns in guest behavior and crowd management can be inferred from analyzing wait times over an extended period?</p>
+
 {% endblock %}

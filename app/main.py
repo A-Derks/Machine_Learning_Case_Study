@@ -5,9 +5,8 @@ from fastapi.templating import Jinja2Templates
 import httpx
 import os
 
-app = FastAPI(title="CSCI 5612 Class Project")
+app = FastAPI()
 
-# Static & templates
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 templates = Jinja2Templates(directory="app/templates")
 
@@ -52,3 +51,7 @@ async def regression(request: Request):
 @app.get("/tab8", response_class=HTMLResponse)
 async def nn(request: Request):
     return templates.TemplateResponse("nn.html", {"request": request, "title": "NN"})
+
+@app.get("/tab9", response_class=HTMLResponse)
+async def conclusions(request: Request):
+    return templates.TemplateResponse("conclusions.html", {"request": request, "title": "Conclusions"})
