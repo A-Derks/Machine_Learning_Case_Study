@@ -1,14 +1,21 @@
 {% extends "base.html" %}
+
 {% block content %}
 <section class="hero">
   <h1>{{ me.name }}</h1>
   <p>{{ me.tagline }}</p>
   <div class="cta">
+    <p>
+      <a href="https://github.com/A-Derks/CSCI_5612_project"
+         target="_blank" rel="noopener noreferrer">
+        Visit Project on GitHub
+      </a>
+    </p>
   </div>
 </section>
 
 <script>
-document.getElementById('gh-form').addEventListener('submit', async (e) => {
+document.getElementById('gh-form')?.addEventListener('submit', async (e) => {
   e.preventDefault();
   const user = document.getElementById('gh-user').value.trim();
   const out = document.getElementById('gh-results');
