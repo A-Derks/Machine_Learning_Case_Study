@@ -1,5 +1,91 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>Clustering</h1>
-<p>Content for Clustering.</p>
+    <h3>Overview</h3>
+    <p>Clustering is an unsupervised machine learning technique used to group similar data points together
+    based on their features. The goal is to discover natural patterns in the data, such that objects within
+    the same group are more alike to each other than to those in different groups. There are two main clusering
+    approaches: partitional clustering and hierarchical clustering. Partitional methods, such as k-means, split
+    the dataset into a specified number of clusters by iteratively assigning points to the nearest cluster center
+    and updating those centers. Hierarchical clustering builds a nested tree of clusters, either by starting with
+    each data point as its own cluster and merging them step by step, or by starting with all points in
+    one cluster and splitting them recursively. Both partitional and hierarchical clustering rely on distance
+    metrics to measure similarity between data points. Common metrics include Euclidean distance (straight-line
+    distance), Manhattan distance (sum of absolute differences), and cosine similarity (angle between vectors).
+    The choice of clustering method and distance metric has a strong influence on the shapes and types of clusters
+    that are discovered.<p>
+
+    <p>In the context of this project, rides can be clustered by their average and peak wait times, variability, and ride type
+    to uncover categories such as “thrill rides with consistently long waits,” “family-friendly rides with steady moderate waits,”
+    and “low-wait seasonal attractions.” Similarly, clustering entire days using features like crowd index, weather, and average
+    waits might reveal distinct types of guest experiences, such as quiet off-season weekdays, moderate crowd days, or high-intensity
+    holiday peaks. By applying clustering in these ways, this project can surface hidden patterns and relationships within the
+    data that help explain how crowds and waits evolve across different rides, times, and conditions.<p>
+
+    <p>Have two images. More is fine.</p>
+
+    <h3>Data Prep</h3>
+    <p>All models and methods require specific data formats. For example, supervised models like decision trees or neural
+        networks require labeled data, where each observation has both input features and an output label to learn from.
+        Clustering is an unsupervised learning method and therefore requires only unlabeled numeric data (a set of features
+        that describe each observation). The algorithm then measures the distance between data points using metrics such
+        as Euclidean distance, and groups points into clusters based on how close they are in feature space. This requirement
+        for numeric data is important, because clustering relies on mathematical operations (like calculating distances)
+        that are only meaningful with numbers. If your dataset includes non-numeric values such as categorical labels or text,
+        they must first be transformed into a numeric representation before clustering can be applied. </p>
+
+    <p>Here is a snippet of the cleaned data that will be used for clustering. <a href="https://github.com/A-Derks/CSCI_5612_project/blob/main/data/clean/queue_times_clean.csv">Here</a> is a link to the data that I will be using
+        for clustering:</p>
+
+    <img src="{{ url_for('static', path='figures/data_to_use_for_clustering.png') }}" alt="Clustering data" width="600">
+    <img src="{{ url_for('static', path='figures/k_means_unclustered.png') }}" alt="Unclustered data" width="600">
+
+
+    <h3>Code</h3>
+    <p>Use R or Python to code k-means clustering and to code hierarchical clustering. Use Cosine Similarity
+        as the distance measure for the h-clust.</p>
+    <h3>Results</h3>
+
+    <h4>K-Means Clustering</h4>
+    <img src="{{ url_for('static', path='figures/silhouette_method.png') }}" alt="silhouette method" width="600">
+    <img src="{{ url_for('static', path='figures/k_means_clustered_k_2.png') }}" alt="k-means clustered k = 2" width="600">
+    <img src="{{ url_for('static', path='figures/k_means_clustered_k_3.png') }}" alt="k-means clustered k = 3" width="600">
+    <img src="{{ url_for('static', path='figures/k_means_clustered_k_4.png') }}" alt="k-means clustered k = 4" width="600">
+    <img src="{{ url_for('static', path='figures/k_means_clustered_k_5.png') }}" alt="k-means clustered k = 5" width="600">
+
+    <p>Using k-means clustering, the silhouette analysis showed that k = 2 provides the best clustering solution, meaning the data naturally separates
+        into two clear groups. These clusters represent quiet to moderately busy days and peak busy days, offering a simple
+        but powerful distinction. While other visualizations with k = 3, 4, or 5 revealed more granular splits—such as
+        separating different levels of moderate days—these additional clusters were less distinct and added complexity
+        (even overfitting with k = 5) without clear interpretive benefit. By contrast, k = 2 maximizes cluster cohesion and
+        separation, giving the most meaningful and interpretable grouping for understanding overall crowd patterns in the parks.</p>
+
+    <h4>Hierarchical Clustering</h4>
+    <img src="{{ url_for('static', path='figures/hierarchical_clustering_(k=2).png') }}" alt="hierarchical cluserting k=2" width="600">
+    <img src="{{ url_for('static', path='figures/dendrogram.png') }}" alt="dendrogram" width="600">
+    <img src="{{ url_for('static', path='figures/silhouette_scores.png') }}" alt="hierarchical silhouette scores" width="600">
+
+    <p>Using hierarchical clustering, the silhouette analysis shows that the best separation is achieved with k = 2, where the
+        silhouette score is highest (~0.79). This suggests that the data naturally forms two strong clusters under cosine
+        similarity. The scatter plot confirms this, showing one group of quiet-to-moderate wait days and another cluster of
+        higher-wait days. Unlike k-means, which partitions around centroids, hierarchical clustering emphasizes the relative
+        similarity between all pairs of days, and cosine distance in particular groups days with similar shapes of wait patterns
+        rather than just magnitudes. The dendrogram further supports this interpretation, showing two major branches where days
+        within each branch are tightly related. </p>
+
+    <p>Overall, the hierarchical results align with the k-means outcome, but the dendrogram provides added interpretability by
+        revealing how days merge step by step, making it clear that Disney park days tend to fall into two distinct categories:
+        less crowded versus heavily crowded.</p>
+
+
+    <h3>Conclusions</h3>
+    <p>Applying both k-means and hierarchical clustering provided consistent and meaningful insights into daily Disney park patterns.
+        Despite using different clustering methods, both methods converged on the finding that the data naturally separates into two
+        main categories of days. These clusters represent quiet-to-moderate crowd days and high-intensity crowd days, confirming that
+        wait times and guest experiences at Disney parks are not evenly distributed but instead fall into clear, recurring patterns.
+        This outcome is valuable for the project because it demonstrates that unsupervised methods can uncover underlying structures
+        in the data without prior labels. By identifying these distinct day types, the analysis helps frame the broader goal of the
+        project: improving understanding of crowd behavior and wait time dynamics in theme parks. These results suggest that future
+        predictive models could benefit from recognizing and adapting to these natural day groupings, ultimately offering more
+        accurate and practical tools for managing expectations and planning park visits.</p>
 {% endblock %}

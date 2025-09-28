@@ -1,5 +1,59 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>PCA</h1>
-<p>Content for PCA.</p>
+    <h3>Overview</h3>
+    <p>Principal Component Analysis (PCA) is a technique used to simplify big datasets by reducing their dimensionality
+        and finding the most important patterns within the data while retaining as much important information as possible. The core idea is to
+        transform the original features into a new set of features, called principal components, which are uncorrelated and
+        ordered (from largest to smallest) by how much information they capture from the data. This works using ideas from
+        linear algebra: eigenvectors show the directions where the data spreads out the most, and eigenvalues tell us how
+        much of the data’s variability each of those directions explains. The first principal component explains the most
+        variation, the second explains the next most, and so on. PCA is important because highly dimensional, complex datasets
+        can be messy, hard to visualize, and difficult for models to handle. By reducing dataset dimensionality, we make the data easier
+        to analyze and plot, we get rid of noise or repetitive information, and we make computations faster and more efficient.</p>
+    <p>Have two images. More is fine.</p>
+
+    <h3>Data Prep</h3>
+    <p>All models and methods require specific data formats. PCA works only with numeric, continuous data, since it relies on
+        calculating variances, covariances, and distances between data points. Because PCA is sensitive to differences in magnitude,
+        each feature should ideally be on a comparable (normalized) scale (i.e. if one feature has values in the thousands and
+        another is between 0 and 1, the larger feature will dominate the analysis, so we need to normalize each of those features). PCA also requires the data to be structured
+        in a way where rows represent observations and columns represent features. Categorical variables can’t be used directly
+        unless they are first converted into numeric form. In short, PCA needs a clean, numeric dataset, with features standardized,
+        so it can correctly identify the directions of maximum variance.</p>
+
+    <p>Here is a sample of the cleaned data that will be used for PCA.</p>
+
+    <img src="{{ url_for('static', path='figures/pca_input_data_sample.png') }}" alt="PCA input sample" width="600">
+
+    <p> LINK to the sample of data as well. </p>
+
+    <h3>Code</h3>
+    <p>LINK to the code.</p>
+
+    <h3>Results</h3>
+
+    <img src="{{ url_for('static', path='figures/pca_scatter.png') }}" alt="PCA scatter" width="600">
+    <img src="{{ url_for('static', path='figures/pca_scree.png') }}" alt="PCA Scree" width="600">
+
+    <p>The PCA results show that most of the variation in the Disney Parks wait time data can be explained with just two
+        principle components: PC1, which alone accounts for about 76.6% of the variance, and PC2, which adds another 19.9%.
+        Together, they capture over 96% of the dataset’s structure, meaning we can reduce the data to two dimensions without
+        losing much information. PC1 represents the overall crowd intensity, as days with higher average and peak wait times
+        score higher on this axis. PC2 reflects a secondary factor, likely related to differences in ride availability or
+        variability in waits. The scatter plot of PC1 vs PC2 makes it easy to spot patterns, like busy holiday days
+        clustering separately from quieter weekdays, while the scree plot confirms that additional principle components
+        add little value.</p>
+
+    <h3>Conclusions</h3>
+    <p>Through PCA, I learned that the complexity of daily Disney park wait times and crowd levels can largely be reduced
+        to just two underlying patterns; the first principal component represents the overall level of busyness, clearly
+        separating high-crowd, long-wait days from quieter ones, while the second highlights a secondary factor tied to
+        variability in wait times or ride availability. This reduction not only simplified the analysis but also revealed
+        that most of the day-to-day differences in guest experiences can be explained with just a couple of dimensions.
+        In the context of my project, this means that even though theme park data can feel overwhelming with many metrics,
+        the main story is about how crowded the park is on a given day and how consistently that crowding affects rides.
+        By uncovering these patterns, PCA helps frame wait time prediction as a problem driven by a few key factors,
+        reinforcing the idea that understanding and managing crowd intensity is central to improving the Disney guest
+        experience.</p>
 {% endblock %}

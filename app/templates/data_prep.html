@@ -2,9 +2,9 @@
 {% block content %}
 <h1>Data Prep</h1>
 <p>For this project, I gathered data from multiple publicly available sources that specialize in reporting or
-    archiving Disney park wait times and crowd levels. The first source was WDW Passport (https://wdwpassport.com/past-crowds),
+    archiving Disney park wait times and crowd levels. The first source was <a href="https://wdwpassport.com/past-crowds">WDW Passport</a>,
     which provides daily historical crowd index scores (1–10 scale) for each day of the year, making it useful for
-    analyzing how busy the parks were on specific dates. The second source was the Queue-Times API (https://queue-times.com),
+    analyzing how busy the parks were on specific dates. The second source was the <a href="https://queue-times.com">Queue-Times API</a>,
     which exposes real-time JSON feeds of ride-level wait times across theme parks worldwide, including Walt Disney
     World. The core endpoint used was https://queue-times.com/parks/{park_id}/queue_times.json where {park_id}
     corresponds to a specific park, such as 6 for Magic Kingdom. For example, calling GET https://queue-times.com/parks/6/queue_times.json
