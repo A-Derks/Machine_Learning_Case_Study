@@ -7,13 +7,25 @@
     the same group are more alike to each other than to those in different groups. There are two main clusering
     approaches: partitional clustering and hierarchical clustering. Partitional methods, such as k-means, split
     the dataset into a specified number of clusters by iteratively assigning points to the nearest cluster center
-    and updating those centers. Hierarchical clustering builds a nested tree of clusters, either by starting with
+    and updating those centers (See Fig. 1 below). Hierarchical clustering builds a nested tree of clusters, either by starting with
     each data point as its own cluster and merging them step by step, or by starting with all points in
-    one cluster and splitting them recursively. Both partitional and hierarchical clustering rely on distance
+    one cluster and splitting them recursively (See Fig 2 below). Both partitional and hierarchical clustering rely on distance
     metrics to measure similarity between data points. Common metrics include Euclidean distance (straight-line
     distance), Manhattan distance (sum of absolute differences), and cosine similarity (angle between vectors).
     The choice of clustering method and distance metric has a strong influence on the shapes and types of clusters
     that are discovered.<p>
+
+    <figure>
+        <img src="{{ url_for('static', path='figures/k_means_clustering_befire_after.png') }}" alt="Clustering data" width="600" style="display: block; margin-left: auto; margin-right: auto;">
+        <figcaption style="text-align: center;">
+            Fig. 1
+        </figcaption>
+        <figcaption style="text-align: center;">
+            An illustration of k-means clustering. On the left, data points are scattered without structure. On the right,
+            the algorithm has grouped them into distinct clusters around their centroids, revealing hidden patterns in the data.
+            Source: https://serokell.io/blog/k-means-clustering-in-machine-learning
+        </figcaption>
+    </figure>
 
     <p>In the context of this project, rides can be clustered by their average and peak wait times, variability, and ride type
     to uncover categories such as “thrill rides with consistently long waits,” “family-friendly rides with steady moderate waits,”
@@ -22,7 +34,19 @@
     holiday peaks. By applying clustering in these ways, this project can surface hidden patterns and relationships within the
     data that help explain how crowds and waits evolve across different rides, times, and conditions.<p>
 
-    <p>Have two images. More is fine.</p>
+    <figure>
+        <img src="{{ url_for('static', path='figures/hierarchical_clustering_dendogram.png') }}" alt="Hierarchical clustering dendogram" width="600" style="display: block; margin-left: auto; margin-right: auto;">
+        <figcaption style="text-align: center;">
+            Fig. 2
+        </figcaption>
+        <figcaption style="text-align: center;">
+            A dendrogram illustrating hierarchical clustering. Each leaf at the bottom represents an individual data point,
+            and branches show how points are merged into clusters step by step. The height of each branch indicates the
+            dissimilarity at which clusters were joined, with shorter branches meaning greater similarity. By choosing a
+            horizontal cut across the tree, different numbers of clusters can be identified.
+            Source: https://www.datanovia.com/en/lessons/examples-of-dendrograms-visualization
+        </figcaption>
+    </figure>
 
     <h3>Data Prep</h3>
     <p>All models and methods require specific data formats. For example, supervised models like decision trees or neural
@@ -34,11 +58,13 @@
         that are only meaningful with numbers. If your dataset includes non-numeric values such as categorical labels or text,
         they must first be transformed into a numeric representation before clustering can be applied. </p>
 
-    <p>Here is a snippet of the cleaned data that will be used for clustering. <a href="https://github.com/A-Derks/CSCI_5612_project/blob/main/data/clean/queue_times_clean.csv">Here</a> is a link to the data that I will be using
-        for clustering:</p>
+    <p>Here is a snippet of the cleaned data that will be used for clustering:
 
     <img src="{{ url_for('static', path='figures/data_to_use_for_clustering.png') }}" alt="Clustering data" width="600">
     <img src="{{ url_for('static', path='figures/k_means_unclustered.png') }}" alt="Unclustered data" width="600">
+
+    And <a href="https://github.com/A-Derks/CSCI_5612_project/blob/main/data/clean/queue_times_clean.csv">here</a> is a link to the data that I will be using
+        for clustering:</p>
 
 
     <h3>Code</h3>

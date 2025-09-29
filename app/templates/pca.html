@@ -11,7 +11,32 @@
         variation, the second explains the next most, and so on. PCA is important because highly dimensional, complex datasets
         can be messy, hard to visualize, and difficult for models to handle. By reducing dataset dimensionality, we make the data easier
         to analyze and plot, we get rid of noise or repetitive information, and we make computations faster and more efficient.</p>
-    <p>Have two images. More is fine.</p>
+
+    <figure>
+        <img src="{{ url_for('static', path='figures/pca_overview.jpg') }}" alt="PCA overview" width="600" style="display: block; margin-left: auto; margin-right: auto;">
+        <figcaption style="text-align: center;">
+            Fig. 1
+        </figcaption>
+        <figcaption style="text-align: center;">
+            An illustration of PCA: the original data (left) is rotated and projected onto new axes, PC1 and PC2,
+            which capture the directions of greatest variance. The result (right) is a simplified representation
+            where the main structure of the data is preserved in fewer dimensions.
+            Source: https://mlpills.substack.com/p/issue-91-principal-component-analysis
+        </figcaption>
+    </figure>
+
+    <figure>
+        <img src="{{ url_for('static', path='figures/pca_example.png') }}" alt="PCA example" width="600" style="display: block; margin-left: auto; margin-right: auto;">
+        <figcaption style="text-align: center;">
+            Fig. 2
+        </figcaption>
+        <figcaption style="text-align: center;">
+            An example PCA identifying the directions of maximum variance in the data. The new axes (principal components)
+            are shown in red and green, representing the directions along which the data varies most, allowing the dataset
+            to be re-expressed in terms of these components.
+            Source: https://mlpills.substack.com/p/issue-91-principal-component-analysis
+        </figcaption>
+    </figure>
 
     <h3>Data Prep</h3>
     <p>All models and methods require specific data formats. PCA works only with numeric, continuous data, since it relies on
@@ -26,11 +51,11 @@
 
     <img src="{{ url_for('static', path='figures/pca_input_data_sample.png') }}" alt="PCA input sample" width="600">
 
-    <p>And <a href="https://github.com/A-Derks/CSCI_5612_project/blob/main/data/clean/queue_times_clean.csv">here</a> is a link to the data that I will be using
+    <p>And <a href="https://github.com/A-Derks/CSCI_5612_project/blob/main/app/static/figures/data_to_use_for_clustering.png">here</a> is a link to the data that I will be using
         for PCA</p>
 
     <h3>Code</h3>
-    <p>LINK to the code.</p>
+    <p><a href="https://github.com/A-Derks/CSCI_5612_project/blob/main/pca.py">Here</a> is a link to my PCA code.</p>
 
     <h3>Results</h3>
 
