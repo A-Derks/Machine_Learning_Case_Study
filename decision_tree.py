@@ -7,12 +7,7 @@ from sklearn.model_selection import train_test_split, StratifiedKFold, cross_val
 from sklearn.tree import DecisionTreeClassifier, plot_tree
 from sklearn.metrics import classification_report, confusion_matrix, ConfusionMatrixDisplay
 
-DATA_QT = "data/clean/queue_times_clean.csv"
-OUT_DIR = os.path.join("app", "static", "figures")
-os.makedirs(OUT_DIR, exist_ok=True)
 
-
-# ---------- 1) Aggregate ride snapshots -> day-level features ----------
 def build_day_features(qt: pd.DataFrame) -> pd.DataFrame:
     """
     Features per date: avg_wait, med_wait, p95_wait, pct_open (and samples for filtering).
@@ -33,7 +28,6 @@ def build_day_features(qt: pd.DataFrame) -> pd.DataFrame:
     return g[["date", "avg_wait", "med_wait", "p95_wait", "pct_open"]]
 
 
-# ---------- 2) Make labels directly from queue_times-derived stats ----------
 def make_labels_from_queue(day: pd.DataFrame, mode: str = "median") -> pd.Series:
     """
     'busy' / 'not_busy' labels from p95_wait.
@@ -50,9 +44,8 @@ def make_labels_from_queue(day: pd.DataFrame, mode: str = "median") -> pd.Series
     return y
 
 
-# ---------- 3) Plot helpers ----------
 def save_confusion_matrix(y_true, y_pred, labels=("not_busy", "busy"),
-                          out_path=os.path.join(OUT_DIR, "dt_confusion_matrix.png")):
+                          out_path=os.path.join("/app/static/figures", "dt_confusion_matrix.png")):
     cm = confusion_matrix(y_true, y_pred, labels=list(labels))
     disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=list(labels))
 
@@ -66,7 +59,7 @@ def save_confusion_matrix(y_true, y_pred, labels=("not_busy", "busy"),
 
 
 def save_feature_importances(model: DecisionTreeClassifier, feature_names,
-                             out_path=os.path.join(OUT_DIR, "dt_feature_importance.png")):
+                             out_path=os.path.join("/app/static/figures", "dt_feature_importance.png")):
     importances = np.array(model.feature_importances_)
     order = np.argsort(importances)[::-1]
 
@@ -84,7 +77,7 @@ def save_feature_importances(model: DecisionTreeClassifier, feature_names,
 
 
 def save_tree_plot(model: DecisionTreeClassifier, feature_names,
-                   out_path=os.path.join(OUT_DIR, "dt_tree.png")):
+                   out_path=os.path.join("/app/static/figures", "dt_tree.png")):
     fig, ax = plt.subplots(figsize=(10, 7))
     plot_tree(model,
               feature_names=feature_names,
@@ -97,10 +90,9 @@ def save_tree_plot(model: DecisionTreeClassifier, feature_names,
     print(f"Saved tree diagram -> {os.path.abspath(out_path)}")
 
 
-# ---------- 4) Main ----------
 def main():
     # Load & clean raw snapshots
-    qt = pd.read_csv(DATA_QT, parse_dates=["timestamp_utc", "date"])
+    qt = pd.read_csv("data/clean/queue_times_clean.csv", parse_dates=["timestamp_utc", "date"])
     qt = qt[["date", "ride", "wait_time", "is_open"]].dropna()
     qt = qt[(qt["wait_time"] >= 0) & (qt["wait_time"] <= 300)]
 
@@ -108,7 +100,7 @@ def main():
     day = build_day_features(qt)
 
     # Labels from queue_times only (balanced by default)
-    y = make_labels_from_queue(day, mode="median")   # or mode="q70"
+    y = make_labels_from_queue(day, mode="median")
     features = ["avg_wait", "med_wait", "p95_wait", "pct_open"]
     X_df = day[features].copy()
 
@@ -119,22 +111,20 @@ def main():
     print("\nTrain labels:", pd.Series(y_train).value_counts().to_dict())
     print("Test  labels:", pd.Series(y_test).value_counts().to_dict())
 
-    # ---- Train Decision Tree ----
-    # criterion: "gini" (Gini impurity) or "entropy" (information gain)
+    # Train Decision Tree
     clf = DecisionTreeClassifier(
         criterion="gini",
-        max_depth=3,           # sensible default; adjust as needed
-        min_samples_leaf=3,    # helps prevent overfitting on small data
+        max_depth=3,
+        min_samples_leaf=3,
         random_state=42
     )
     clf.fit(X_train, y_train)
 
-    # Optional: quick 5-fold CV score (on training data only)
     cv = StratifiedKFold(n_splits=min(5, len(np.unique(y_train)) + 3), shuffle=True, random_state=42)
     cv_scores = cross_val_score(clf, X_train, y_train, cv=cv, scoring="f1_macro")
     print(f"\n5-fold CV F1_macro (train only): mean={cv_scores.mean():.3f}, scores={np.round(cv_scores,3)}")
 
-    # ---- Evaluate on Test ----
+    # Evaluate on Test
     y_pred = clf.predict(X_test)
     labels = ["not_busy", "busy"]
     print("\n=== Decision Tree (test set) ===")
@@ -142,12 +132,12 @@ def main():
     print("Confusion matrix (rows=true, cols=pred):")
     print(confusion_matrix(y_test, y_pred, labels=labels))
 
-    # ---- Save visuals ----
+    # Save visuals
     save_confusion_matrix(y_test, y_pred, labels=labels)
     save_feature_importances(clf, features)
     save_tree_plot(clf, features)
 
-    # Save predictions table (optional)
+    # Save predictions table
     out_csv = os.path.join("data", "clean", "dt_test_predictions.csv")
     out_df = X_test.copy()
     out_df["label_true"] = y_test.values
