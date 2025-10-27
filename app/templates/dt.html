@@ -1,5 +1,120 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>DT</h1>
-<p>Content for DT.</p>
+    <h3>Overview</h3>
+    <p>Decision Trees (DTs) are a type of supervised learning algorithm used for classification and regression. They split data
+        into smaller, more uniform groups based on feature values, forming a structure that resembles a flowchart. Each node
+        represents a decision on a feature, and each leaf represents a predicted outcome. Decision trees are popular because
+        they are interpretable and visually explain how predictions are made.</p>
+
+    <figure>
+        <img src="{{ url_for('static', path='figures/Structure-of-a-general-decision-tree.png') }}" alt="Decision tree structure" width="600" style="display: block; margin-left: auto; margin-right: auto;">
+        <figcaption style="text-align: center;">
+            Fig. 1
+        </figcaption>
+        <figcaption style="text-align: center;">
+            Basic structure of a decision tree showing how data is divided into smaller, purer groups.
+            Source: https://www.researchgate.net/figure/Structure-of-a-general-decision-tree_fig1_349499774
+        </figcaption>
+    </figure>
+
+    <p>Trees determine where to split using measures of impurity — how mixed the data is at a node.
+      The most common measures are Gini Impurity, Entropy, and Information Gain:</p>
+
+    <ul>
+      <li><strong>Gini Impurity</strong> measures how often a randomly chosen data point would be misclassified.</li>
+      <li><strong>Entropy</strong> measures uncertainty or disorder.</li>
+      <li><strong>Information Gain</strong> calculates how much impurity is reduced after a split, helping find the best division.</li>
+    </ul>
+
+    <p>For example, if a dataset of 10 park days (6 busy, 4 not_busy) has an entropy of 0.97 before splitting and 0.74 after,
+      the Information Gain is 0.23. That means the split reduced uncertainty by 0.23 bits, improving the model’s ability
+      to distinguish busy from calm days.</p>
+
+
+    <figure>
+        <img src="{{ url_for('static', path='figures/A-visual-representation-of-the-two-functions-that-can-be-used-in-decision-trees-for.png') }}" alt="Gini v Entropy" width="600" style="display: block; margin-left: auto; margin-right: auto;">
+        <figcaption style="text-align: center;">
+            Fig. 2
+        </figcaption>
+        <figcaption style="text-align: center;">
+            Comparison of Gini and Entropy. Both favor splits that produce purer subsets.
+            Source: https://www.researchgate.net/figure/A-visual-representation-of-the-two-functions-that-can-be-used-in-decision-trees-for_fig5_362967724
+        </figcaption>
+    </figure>
+
+    <p>Because data can be divided in countless ways, it’s possible to create infinitely many decision trees. However, large or
+        deep trees can overfit, memorizing training data rather than learning patterns. To prevent this, decision trees are
+        often pruned or limited in depth, balancing complexity and accuracy.</p>
+
+    <h3>Data Prep</h3>
+    <p>All models and methods require specific data formats, and supervised learning methods like Decision Trees rely on
+     labeled data. In this project, each day is labeled as either “busy” or “not busy”,
+      depending on whether its 95th percentile (p95) wait time is above or below the median across all days. This gives
+      the model a target variable (the label) that it can learn to predict based on daily features such as average,
+      median, and peak wait times, and the percentage of rides that were open.</p>
+
+    <p>The data must also be divided into two separate sets: a Training Set and a
+      Testing Set. The training set is used to “teach” the Decision Tree how different features
+      influence the outcome, while the testing set evaluates how well the trained model performs on unseen data.
+      These sets are disjoint—meaning they contain no overlapping rows—so that performance results reflect
+      true predictive ability rather than memorization.</p>
+
+    <p>Below is a small labeled sample of the data used for modeling:</p>
+
+    <figure>
+        <img src="{{ url_for('static', path='figures/dt_sample_data.png') }}" alt="DT Sample" width="600" style="display: block; margin-left: auto; margin-right: auto;">
+        <figcaption style="text-align: center;">
+            Fig. 1
+        </figcaption>
+        <figcaption style="text-align: center;">
+            Sample of labeled daily data showing key wait time features and “busy” vs. “not busy” labels used for training the decision tree.
+        </figcaption>
+    </figure>
+
+    <p>ADD LINK TO DATA</p>
+
+    <h3>Code</h3>
+    <p>ADD LINK TO CODE</p>
+
+    <h3>Results</h3>
+    <p>The decision tree model was trained using daily features — average, median, and 95th percentile wait times,
+      along with the percentage of open rides — to classify days as either “busy” or “not busy.”
+      The model achieved strong performance on the test data, correctly identifying most days and confirming
+      that these features effectively capture park crowd patterns.</p>
+
+    <figure>
+      <img src="{{ url_for('static', path='figures/dt_confusion_matrix.png') }}" alt="DT Confusion Matrix" width="600" style="display: block; margin-left: auto; margin-right: auto;">
+      <figcaption style="text-align: center;">
+        Fig. 3. Confusion matrix displaying the correct and incorrect classifications for busy and not-busy days.
+      </figcaption>
+    </figure>
+
+    <figure>
+      <img src="{{ url_for('static', path='figures/dt_feature_importance.png') }}" alt="DT Feature Importances" width="600" style="display: block; margin-left: auto; margin-right: auto;">
+      <figcaption style="text-align: center;">
+        Fig. 4. Feature importance plot showing which variables contributed most to classifying park days.
+      </figcaption>
+    </figure>
+
+    <figure>
+      <img src="{{ url_for('static', path='figures/dt_tree.png') }}" alt="DT Tree" width="800" style="display: block; margin-left: auto; margin-right: auto;">
+      <figcaption style="text-align: center;">
+        Fig. 5. Visualization of the trained decision tree illustrating how splits on wait time features lead to predictions of “busy” or “not busy.”
+      </figcaption>
+    </figure>
+
+    <h3>Conclusions</h3>
+    <p>
+      The decision tree analysis showed that daily wait time metrics — particularly the median and 95th percentile waits —
+      are reliable indicators of park busyness. The model accurately distinguished between “busy” and “not busy” days,
+      confirming that queue-based features reflect real-world crowd dynamics.
+    </p>
+
+    <p>
+      This approach highlights how machine learning can support better guest experience and operations management at Disney parks.
+      By predicting busy days in advance, park managers could optimize staffing, schedule maintenance, and improve guest flow,
+      while visitors could plan visits to minimize wait times. Decision trees not only provide strong predictive power but also
+      clear interpretability, revealing exactly how different factors contribute to overall crowd levels.
+    </p>
 {% endblock %}
