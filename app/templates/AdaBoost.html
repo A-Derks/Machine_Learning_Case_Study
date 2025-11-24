@@ -1,0 +1,215 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>AdaBoost</h1>
+    <h3>Overview</h3>
+    <p>Ensemble learning is a supervised machine learning approach in which multiple models are combined to make a single,
+        stronger predictor. The core idea is that even if individual models are imperfect, their errors often differ, so
+        pooling their predictions can produce a result that is more accurate and stable than any one model alone. Boosting
+        is a specific kind of ensemble method where models are trained sequentially, not in parallel. It starts with a weak
+        learner - a simple model that does only a bit better than guessing. On its own, a weak learner isn’t very accurate,
+        but boosting turns many weak learners into a strong model by letting each new learner focus on the mistakes made so
+        far. In AdaBoost, this happens through re-weighting: after each round, the samples that were misclassified get higher
+        weights, so the next weak learner pays extra attention to them. Over many rounds, AdaBoost combines all weak learners
+        into one final predictor, giving more influence to learners that performed well, therefore steadily increasing overall
+        accuracy.</p>
+
+    <figure>
+        <img src="{{ url_for('static', path='figures/weak_v_strong_learners.jpg') }}" alt="Weak v Strong Learners" width="600" style="display: block; margin-left: auto; margin-right: auto;">
+        <figcaption style="text-align: center;">
+            Fig. 1
+        </figcaption>
+        <figcaption style="text-align: center;">
+            Sequential weak learners are trained on increasingly weighted mistakes, and their combined decision boundaries form a stronger final classifier.
+        </figcaption>
+    </figure>
+
+    <p>Although AdaBoost, Gradient Boosting, and XGBoost all belong to the boosting family, they differ in how they decide
+        what to fix next. AdaBoost adapts by weighting the training examples, pushing later learners toward the hardest cases.
+        Gradient Boosting instead builds each new learner to predict the residuals of the current model, so each round directly
+        reduces what the ensemble is still getting wrong. XGBoost is an advanced, highly optimized form of gradient boosting
+        that adds strong regularization, efficient handling of missing data, and more sophisticated loss minimization, which
+        often makes it faster and more accurate in practice, though it can be more complex to tune. Across all these methods,
+        boosting works by iteratively improving the model: early learners reduce large systematic mistakes (lowering bias),
+        while later learners refine smaller errors and stabilize predictions (reducing variance). In AdaBoost this looks like
+        shifting attention toward misclassified days, while in gradient-based methods it looks like shrinking residual errors
+        round after round.</p>
+
+    <p>The behavior of boosting models depends heavily on a few core hyperparameters. The learning rate controls how much each
+        weak learner contributes; smaller values mean slower, steadier improvements that usually generalize better, while larger
+        values learn faster but risk overfitting. The number of estimators sets how many weak learners are added, which can
+        increase accuracy as long as learning rate and model complexity stay reasonable. Finally, tree depth determines how
+        complex each weak learner is: AdaBoost usually works best with very shallow trees (depth 1–3), keeping each learner
+        weak enough to avoid overfitting while still allowing the full ensemble to capture complex patterns. For this project,
+        this matters because AdaBoost can gradually learn the difference between predictable crowd days and tricky edge
+        cases, like partial ride shutdowns or unusual weather, by repeatedly targeting the hardest-to-classify days and
+        combining those improvements into a single strong crowd-level predictor.</p>
+
+    <figure>
+        <img src="{{ url_for('static', path='figures/AdaBoosting.png') }}" alt="AdaBoosting" width="600" style="display: block; margin-left: auto; margin-right: auto;">
+        <figcaption style="text-align: center;">
+            Fig. 2
+        </figcaption>
+        <figcaption style="text-align: center;">
+            An example of an AdaBoost workflow. Each classifier is trained on re-weighted data that emphasizes previous mistakes, and their combined outputs form a final ensemble with improved accuracy.
+        </figcaption>
+    </figure>
+
+    <h3>Data Prep</h3>
+    <p>For this boosting module, I used my cleaned ride wait-time dataset, which contains real-time snapshots of Disney ride
+        waits collected throughout the semester. This dataset was selected because it is large, frequently updated, and
+        directly reflects guest experiences in the parks through measurable wait-time behavior. Below you can see a labeled
+        preview which shows the exact features and labels used for modeling.</p>
+
+    <figure>
+      <img src="{{ url_for('static', path='figures/adaboost_labeled_dataset.png') }}"
+           alt="AdaBoost labeled" width="600"
+           style="display: block; margin-left: auto; margin-right: auto;">
+      <figcaption style="text-align: center;">Fig. 3</figcaption>
+        <figcaption style="text-align: center;">
+                Sample of labeled dataset ready for boosting.
+            </figcaption>
+    </figure>
+
+    # TODO: Add link to dataset
+
+    <p>To apply supervised boosting, I first needed a clear target variable (label). Since crowd labels are not provided
+        directly in the Queue-Times data, I created them from the wait-time distribution itself. After aggregating ride-level
+        waits into daily summaries, I defined a day as “busy” if its 95th percentile wait time was above the median of all days,
+        and “not_busy” otherwise. This produces a balanced label split and gives AdaBoost a meaningful outcome to learn from:
+        predicting whether a day reflects high-crowd conditions based only on wait-time patterns.</p>
+
+    <p>Once the target variable was defined, I split the labeled dataset into a training set (80%) and a testing set (20%)
+        using a stratified train_test_split. The training set is the only portion used to build the AdaBoost model, while the
+        testing set is held aside to evaluate accuracy on unseen days. These sets must be disjoint (no overlapping rows)
+        so that performance reflects real predictive ability rather than memorization; if the same day appeared in both sets,
+        the model’s accuracy would be artificially inflated and not meaningful for real-world forecasting.</p>
+
+    <figure>
+      <img src="{{ url_for('static', path='figures/adaboost_train_test_split.png') }}"
+           alt="AdaBoost train test split" width="600"
+           style="display: block; margin-left: auto; margin-right: auto;">
+      <figcaption style="text-align: center;">Fig. 4</figcaption>
+        <figcaption style="text-align: center;">
+                Train/ test split.
+            </figcaption>
+    </figure>
+
+    <p>Finally, I prepared the features to be fully suitable for boosting. AdaBoost in scikit-learn requires numeric inputs,
+        so I used only numeric daily features: average wait, median wait, 95th percentile wait, and percent of rides open.
+        Any missing values in these numeric columns were handled with median imputation fit only on the training data,
+        ensuring the model never “peeks” at test information. Because I did not include categorical predictors in this
+        version (like ride type or day-of-week), no one-hot encoding was needed — the final processed feature matrices
+        (X_train_proc and X_test_proc) are purely numerical and ready for boosting.</p>
+
+    <h3>Code</h3>
+
+    # TODO: Link to code
+
+    <h3>Results</h3>
+    <p>Using the labeled daily dataset (42 total days), AdaBoost was trained to classify each day as “busy” or “not_busy”
+      using day-level numeric features: average wait time, median wait time, and the percent of rides open. Labels were
+      defined from queue-times alone: a day was marked busy when p95_wait ≥ 40 minutes, producing a reasonably balanced
+      class distribution (25 busy vs 17 not_busy). The data was split into 33 training days and 9 testing days with
+      stratification to preserve class balance, so the testing set represented unseen days.</p>
+
+    <p>The parameter sweep tested multiple tree depths, numbers of estimators, and learning rates. The best configuration was:</p>
+
+    <ul>
+      <li><strong>Base tree depth</strong> : 2 (weak learner)</li>
+      <li><strong>n_estimators</strong> : 10</li>
+      <li><strong>learning_rate</strong> : 1.0</li>
+      <li><strong>Test accuracy</strong> : 1.00</li>
+    </ul>
+
+    <p>This means the model correctly classified every test day.</p>
+
+    <p>To understand how boosting performance depends on model settings, I ran a parameter sweep across different weak-learner
+        tree depths (1, 2, and 3), numbers of estimators (10–200), and learning rates (0.05, 0.1, 0.5, 1.0). The accuracy-versus-estimators
+        plots show that depth matters a lot more than simply adding more estimators: at depth = 1 the model sits at a steady accuracy
+        of about 0.78 across all estimator counts, and at depth = 3 performance is also flat (around 0.67 for lr = 0.1 and ~0.56 for
+        lr = 1.0), meaning extra estimators don’t help once those weak learners hit their limit. Depth = 2 is where AdaBoost becomes
+        sensitive to tuning - accuracy varies with the number of estimators, and the best point occurs early, at n_estimators = 10
+        with learning_rate = 1.0, reaching a perfect test accuracy of 1.00. After that, accuracy oscillates between moderate and
+        high values rather than steadily improving, suggesting that a small ensemble of medium-strength weak learners captures the
+        crowd signal most effectively without needing a large boosted stack.</p>
+
+    <figure>
+      <img src="{{ url_for('static', path='figures/adaboost_accuracy_depth1.png') }}"
+           alt="AdaBoost depth 1" width="600"
+           style="display: block; margin-left: auto; margin-right: auto;">
+      <figcaption style="text-align: center;">Fig. 5</figcaption>
+        <figcaption style="text-align: center;">
+                AdaBoost test accuracy versus number of estimators using very shallow weak learners (depth = 1).
+            </figcaption>
+    </figure>
+
+    <figure>
+      <img src="{{ url_for('static', path='figures/adaboost_accuracy_depth2.png') }}"
+           alt="AdaBoost depth 2" width="600"
+           style="display: block; margin-left: auto; margin-right: auto;">
+      <figcaption style="text-align: center;">Fig. 6</figcaption>
+        <figcaption style="text-align: center;">
+                    AdaBoost test accuracy versus number of estimators using medium-depth weak learners (depth = 2).
+                </figcaption>
+    </figure>
+
+    <figure>
+      <img src="{{ url_for('static', path='figures/adaboost_accuracy_depth3.png') }}"
+           alt="AdaBoost depth 3" width="600"
+           style="display: block; margin-left: auto; margin-right: auto;">
+      <figcaption style="text-align: center;">Fig. 7</figcaption>
+        <figcaption style="text-align: center;">
+                AdaBoost test accuracy versus number of estimators using deeper weak learners (depth = 3).
+            </figcaption>
+    </figure>
+
+    <p>The confusion matrix confirms this result: all 4 not_busy days and all 5 busy days were predicted
+      correctly, producing zero false positives and zero false negatives. This is why precision, recall, and F1-score are all 1.00 for both
+      classes.</p>
+
+    <figure>
+      <img src="{{ url_for('static', path='figures/adaboost_confusion_matrix.png') }}"
+           alt="AdaBoost confusion matrix" width="600"
+           style="display: block; margin-left: auto; margin-right: auto;">
+      <figcaption style="text-align: center;">Fig. 8</figcaption>
+        <figcaption style="text-align: center;">
+                    AdaBoost confusion matrix.
+                </figcaption>
+    </figure>
+
+    <p>The feature-importance plot (adaboost_feature_importance.png) helps explain why the model performed so well: percent of rides
+      open (pct_open) was the dominant predictor, with average wait time (avg_wait) providing secondary support, and median wait time (med_wait)
+      contributing only slightly. Together, these results show that AdaBoost can separate calm versus crowded Disney days extremely effectively
+      from simple daily wait-time and operational summaries.</p>
+
+    <figure>
+      <img src="{{ url_for('static', path='figures/adaboost_feature_importance.png') }}"
+           alt="AdaBoost feature importance" width="600"
+           style="display: block; margin-left: auto; margin-right: auto;">
+      <figcaption style="text-align: center;">Fig. 9</figcaption>
+        <figcaption style="text-align: center;">
+                AdaBoost feature importance.
+            </figcaption>
+    </figure>
+
+
+    <h3>Conclusions</h3>
+    <p>The AdaBoost analysis demonstrates that Disney park busyness can be predicted very reliably from daily wait-time behavior and park
+      operations. By combining multiple weak learners into a single ensemble, boosting forms a strong classifier that captures subtle boundaries
+      between crowded and calm days. The fact that the best AdaBoost model achieved perfect accuracy on unseen test days indicates that the chosen
+      daily features contain a clear, consistent signal tied to the real guest experience.</p>
+
+    <p>These results also highlight the importance of hyperparameters in boosting. The strongest model used a modest number of estimators and
+      weak learners with limited depth, showing that AdaBoost does not need a large or complex ensemble to perform well on this problem. The sweep
+      plots show that accuracy reaches its ceiling quickly, so increasing depth or adding many more estimators would likely add complexity without
+      meaningful gains and could risk overfitting as more data is collected.</p>
+
+    <p>In terms of the project topic, the model suggests that operational conditions and overall wait levels move together in a predictable way:
+      when a smaller fraction of rides are open and average waits climb, the day reliably behaves like a “busy” crowd day. Future improvements
+      could come from extending the dataset across more months and seasons, then re-evaluating how well AdaBoost generalizes under holidays,
+      extreme weather, or unusual closures. I could also extend this beyond binary classification into regression to predict the actual magnitude
+      of peak waits, allowing the model to estimate not just whether a day is busy, but how busy it will be.</p>
+
+
+
+{% endblock %}
