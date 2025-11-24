@@ -69,6 +69,13 @@ def prep_boosting_data(test_size=0.2, mode="median", random_state=42):
     sample_path = "data/clean/adaboost_labeled_day_sample.csv"
     sample.head(12).to_csv(sample_path, index=False)
 
+    # save full labeled set
+    full_boost_df = day[feature_names].copy()
+    full_boost_df["label"] = y.values
+
+    full_boost_df.to_csv("data/clean/adaboost_day_full.csv", index=False)
+
+
     # Train/test split
     X_train_df, X_test_df, y_train, y_test = train_test_split(
         X_df, y,
