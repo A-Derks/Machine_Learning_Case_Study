@@ -45,7 +45,7 @@ def make_labels_from_queue(day: pd.DataFrame, mode: str = "median") -> pd.Series
 
 
 def save_confusion_matrix(y_true, y_pred, labels=("not_busy", "busy"),
-                          out_path=os.path.join("/app/static/figures", "dt_confusion_matrix.png")):
+                          out_path=os.path.join("/Users/alysaderks/repos/machine_learning_website/app/static/figures", "dt_confusion_matrix.png")):
     cm = confusion_matrix(y_true, y_pred, labels=list(labels))
     disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=list(labels))
 
@@ -59,7 +59,7 @@ def save_confusion_matrix(y_true, y_pred, labels=("not_busy", "busy"),
 
 
 def save_feature_importances(model: DecisionTreeClassifier, feature_names,
-                             out_path=os.path.join("/app/static/figures", "dt_feature_importance.png")):
+                             out_path=os.path.join("/Users/alysaderks/repos/machine_learning_website/app/static/figures", "dt_feature_importance.png")):
     importances = np.array(model.feature_importances_)
     order = np.argsort(importances)[::-1]
 
@@ -77,7 +77,7 @@ def save_feature_importances(model: DecisionTreeClassifier, feature_names,
 
 
 def save_tree_plot(model: DecisionTreeClassifier, feature_names,
-                   out_path=os.path.join("/app/static/figures", "dt_tree.png")):
+                   out_path=os.path.join("/Users/alysaderks/repos/machine_learning_website/app/static/figures", "dt_tree.png")):
     fig, ax = plt.subplots(figsize=(10, 7))
     plot_tree(model,
               feature_names=feature_names,

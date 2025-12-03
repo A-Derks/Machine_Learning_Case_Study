@@ -44,14 +44,6 @@ async def nb(request: Request):
 async def AdaBoost(request: Request):
     return templates.TemplateResponse("AdaBoost.html", {"request": request, "title": "AdaBoost"})
 
-@app.get("/tab7", response_class=HTMLResponse)
-async def regression(request: Request):
-    return templates.TemplateResponse("regression.html", {"request": request, "title": "Regression"})
-
-@app.get("/tab8", response_class=HTMLResponse)
-async def nn(request: Request):
-    return templates.TemplateResponse("nn.html", {"request": request, "title": "NN"})
-
 @app.get("/tab9", response_class=HTMLResponse)
 async def conclusions(request: Request):
-    return templates.TemplateResponse("conclusions.html", {"request": request, "title": "Conclusions"})
+    return templates.TemplateResponse("conclusions.html", {"request": request, "title": "Challenges & Conclusions"})

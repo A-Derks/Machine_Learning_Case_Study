@@ -211,17 +211,6 @@ def main():
     print("X_train:", X_train.shape)
     print("X_test :", X_test.shape)
 
-    # AdaBoost
-    best = run_adaboost(X_train, X_test, y_train, y_test, feature_names)
-
-    # Save predictions for your report/site (optional)
-    '''out_csv = "data/clean/adaboost_test_predictions.csv"
-    out_df = X_test_df.copy()
-    out_df["label_true"] = y_test.values
-    out_df["label_pred"] = best["pred"]
-    out_df.to_csv(out_csv, index=False)
-    print(f"\nSaved test predictions -> {os.path.abspath(out_csv)}")'''
-
 
 if __name__ == "__main__":
     main()
