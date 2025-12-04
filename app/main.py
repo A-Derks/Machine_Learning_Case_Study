@@ -48,6 +48,14 @@ async def AdaBoost(request: Request):
 async def results(request: Request):
     return templates.TemplateResponse("results.html", {"request": request, "title": "Results"})
 
-@app.get("/challenges_and_conclusions", response_class=HTMLResponse)
+@app.get("/project_challenges", response_class=HTMLResponse)
+async def challenges(request: Request):
+    return templates.TemplateResponse("project_challenges.html", {"request": request, "title": "Project Challenges"})
+
+@app.get("/conclusions", response_class=HTMLResponse)
 async def conclusions(request: Request):
-    return templates.TemplateResponse("conclusions.html", {"request": request, "title": "Challenges & Conclusions"})
+    return templates.TemplateResponse("conclusions.html", {"request": request, "title": "Conclusions"})
+
+@app.get("/about_me", response_class=HTMLResponse)
+async def about_me(request: Request):
+    return templates.TemplateResponse("about_me.html", {"request": request, "title": "About Me"})

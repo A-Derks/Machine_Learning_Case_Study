@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Project Challenges</h1>
+
+    <p>The first major challenge in this project was collecting and turning real-time Queue-Times API snapshots into a stable,
+      analysis-ready dataset. I used a polling script (collect_queue_times.py) to hit the Queue-Times endpoint for the Magic Kingdom park
+      at a fixed interval and flatten each response into ride-level rows with timestamps, lands, wait times, and open/closed status.
+      Because these raw snapshots are noisy and inconsistent by nature, I then ran a dedicated cleaning pipeline (clean_data.py)
+      to make them usable: timestamps were parsed and invalid rows removed, ride and land names were normalized to strip stray or
+      repeated quotes, Trick-or-Treat overlay entries were filtered out, wait times were coerced to numeric and bounded to a
+      realistic 0–300 minute range, is_open values were standardized to booleans, and duplicates were dropped. Finally, I added
+      derived columns like date and hour so the ride-level data could be reliably aggregated into day-level features for modeling.
+      This end-to-end collection + cleaning step was essential, but it also means downstream results depend on these preprocessing
+      rules, since small choices about filtering or bounds can shift daily summaries.</p>
+
+    <p>A second technical challenge was that several of the machine learning methods required different data formats, forcing
+      careful feature engineering. The raw Queue-Times data is ride-level and time-stamped, while my clustering and supervised
+      models needed day-level numeric summaries. That meant choosing how to compress thousands of observations into a small
+      feature set without losing the “shape” of guest experience. I used aggregates like average wait, median wait, 95th
+      percentile wait, and percent of rides open, but each choice trades detail for interpretability. If I summarized too
+      aggressively, the models could miss important within-day variation; if I summarized too lightly, the feature space
+      became inconsistent across days and methods. Balancing those needs was a constant constraint across the lifecycle.</p>
+
+    <p>Labeling the data for supervised learning was its own challenge because there is no perfect ground-truth crowd label
+      in the Queue-Times feed. I initially planned to use WDWPassport crowd index scores as an external validation source,
+      but after September 9, wdwpassport.com implemented Cloudflare protections and I could no longer scrape historical crowd
+      data. As a result, I had to define labels directly from Queue-Times itself, using a rule like “busy if p95_wait exceeds a
+      threshold.” This made the supervised task feasible, but it also risks circularity: the model is predicting a label that
+      is derived from the same wait-time distribution used as input. In other words, the models can look extremely accurate
+      even when generalization is uncertain, because the target is tightly coupled to the features.</p>
+
+    <p>Dataset size also limited the scientific confidence of several results. Even after collecting data frequently, the
+      usable day-level dataset was still relatively small (tens of days rather than hundreds). This creates two technical
+      issues: first, train/test splits can be unstable, where one or two days strongly influence metrics; second, complex
+      models like boosted ensembles can overfit easily. The near-perfect accuracy I observed across multiple supervised models
+      is encouraging, but with such a small sample it is more a sign of strong signal plus easy labeling, not a guarantee that
+      the models would hold up across seasons or rare events. In practice, larger-scale (multi-year) collection is necessary to validate
+      robustness.</p>
+
+    <p>Finally, interpretation and comparison across methods required care because each technique reveals a different kind of
+      structure. Clustering highlights natural groupings without labels, PCA reveals dominant directions of variation, and
+      supervised models optimize for prediction of a chosen target. These are not interchangeable goals, so a method that
+      performs “best” in one sense may not answer the same question as another. The challenge was to keep the analysis aligned
+      with the project topic — understanding crowd behavior and wait-time dynamics — rather than letting evaluation metrics
+      alone define success. This pushed me to interpret results in the context of the Disney guest experience instead of only
+      reporting model performance.</p>
+
+{% endblock %}

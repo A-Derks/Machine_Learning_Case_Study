@@ -1,5 +1,59 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Challenges & Conclusions</h1>
-<p>Content for conclusions.</p>
+
+<h1>Conclusions</h1>
+
+    <p>Over the course of this project, I learned that Disney wait times contain strong, repeatable patterns that reflect how
+      guests experience crowding from day to day. Even though the parks feel unpredictable in real life, the data shows that
+      days tend to cluster into a small number of recognizable “types,” ranging from calm or moderate days to intense
+      peak-crowd days. This matters for both guests and operators because it suggests that busyness is not random — it follows
+      rhythms shaped by time, operating conditions, and guest behavior. Understanding those rhythms is the foundation for
+      predicting and improving the park experience.</p>
+
+    <p>A key takeaway from the unsupervised work (k-means, hierarchical clustering, and PCA) was that wait-time behavior has a
+      simple underlying structure. Clustering consistently separated days into meaningful groups based on average and
+      high-end waits, and PCA showed that most of the variability in daily conditions can be captured in just two dominant
+      patterns. Together, these results helped confirm that the dataset is not just noisy ride snapshots — it carries coherent
+      signals about daily crowd intensity. In other words, even without labels, the data naturally organizes into
+      interpretable crowd levels.</p>
+
+    <p>The supervised models reinforced that conclusion. Naive Bayes and Decision Trees were able to classify days as busy or
+      not busy with extremely high accuracy, and AdaBoost reached perfect test performance under the same labeling rule.
+      While the small sample size means these scores should be interpreted cautiously, the consistency across methods
+      suggests that basic daily wait summaries (like average wait and percent of rides open) are reliable indicators of crowd
+      pressure. Practically, this implies that with enough data, crowd-prediction tools could be built using only publicly
+      available wait-time feeds.</p>
+
+    <p>An important part of this project was adapting to real-world data constraints. I originally planned to rely on
+      WDWPassport crowd-index history as an independent “ground truth,” but after September 9 the site implemented Cloudflare
+      protections and scraping historical pages was no longer possible. That forced a shift in strategy: labels and features
+      had to be derived entirely from Queue-Times snapshots. While this reduced access to an external validation signal, it
+      also made the project more realistic in the sense that it relied only on data that can be continuously collected going
+      forward. This adaptation highlighted a real lesson in applied data science: models are only as strong as the data
+      pipelines that support them, and those pipelines can change unexpectedly.</p>
+
+    <p>Overall the strongest predictors of high wait times (i.e. "busy" days) are:</p>
+
+    <ul> <li><strong>Percent of rides open (pct_open)</strong>: The strongest predictor in the supervised models (especially
+        AdaBoost). Park-wide availability reflects operational capacity and crowd pressure; higher or lower uptime shifts
+        waits across the whole park.</li>
+        <li><strong>Daily average wait (avg_wait)</strong>: A reliable overall crowd indicator. When the average rises, it
+            usually means many rides are experiencing longer lines, not just a few outliers.</li>
+        <li><strong>Daily median wait (med_wait)</strong>: Captures the “typical” guest experience. A higher median shows
+            that long waits are common across rides, not isolated to the most popular attractions.</li>
+        <li><strong>95th-percentile wait (p95_wait)</strong>: The clearest marker of peak congestion. When the upper tail of
+            waits climbs, it strongly signals a truly high-crowd, high-wait day.</li>
+    </ul>
+
+    <p>Overall takeaway: High-wait days are best predicted when ride availability is strong and the whole wait-time distribution
+        shifts upward - especially at the high end.</p>
+
+    <p>Looking ahead, the biggest opportunity is scaling the dataset over a longer time window and re-testing these methods on
+      more diverse conditions. With more months of data, I could check whether the discovered clusters remain stable across
+      holidays, seasons, and unusual closures, and whether supervised models continue to generalize instead of overfitting.
+      I could also extend the prediction task beyond a binary label by forecasting actual wait-time percentiles or crowd
+      levels directly, which would allow more precise planning and decision-making. Overall, this project showed that wait-time
+      data is not only useful for prediction, but also for explaining why Disney days feel different — and how that experience
+      might be improved in the future.</p>
+
 {% endblock %}
