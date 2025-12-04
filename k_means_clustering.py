@@ -52,7 +52,7 @@ def k_means_clustering(features, n_clusters, max_iter=100):
     scaler = StandardScaler()
     Xs = scaler.fit_transform(X)
 
-    km = KMeans(n_clusters=n_clusters, max_iter=max_iter, n_init=20)
+    km = KMeans(n_clusters=n_clusters, max_iter=max_iter, n_init=20, random_state=42)
     labels = km.fit_predict(Xs)
 
     # Convert centers back to original units (minutes)
@@ -63,6 +63,31 @@ def k_means_clustering(features, n_clusters, max_iter=100):
 
     return km, labels, centers_orig
 
+def plot_clusters(day_feats, labels, centers_orig, k, save_path):
+    """Helper to plot and save clustered scatter."""
+    plt.figure(figsize=(7, 6))
+    day_feats = day_feats.copy()
+    day_feats["cluster"] = labels
+
+    for c in sorted(np.unique(labels)):
+        sub = day_feats[day_feats["cluster"] == c]
+        plt.scatter(sub["avg_wait"], sub["p95_wait"], s=18, alpha=0.8, label=f"Cluster {c}")
+
+    plt.scatter(
+        centers_orig["avg_wait"],
+        centers_orig["p95_wait"],
+        s=160, marker="X", edgecolor="k", linewidths=1.0,
+        label="Centers"
+    )
+
+    plt.xlabel("Daily Average Wait (min)")
+    plt.ylabel("Daily 95th Percentile Wait (min)")
+    plt.title(f"KMeans Clusters of Days (Avg vs P95) k={k}")
+    plt.grid(True, linewidth=0.3, linestyle="--")
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig(save_path, dpi=200)
+    plt.show()
 
 def main():
     # Import the data
@@ -93,29 +118,14 @@ def main():
     plt.savefig("/Users/alysaderks/repos/machine_learning_website/app/static/figures/k_means_unclustered.png")
     plt.show()
 
-    # Run local implementation of kmeans with best k
-    km, labels, centers_orig = k_means_clustering(day_feats[feature_cols], n_clusters=best_k)
-
-    # Attach labels for inspection/saving
-    day_feats["cluster"] = labels
-
-    # plot clustered data
-    plt.figure(figsize=(7, 6))
-    # color by cluster
-    for c in sorted(np.unique(labels)):
-        sub = day_feats[day_feats["cluster"] == c]
-        plt.scatter(sub["avg_wait"], sub["p95_wait"], s=18, alpha=0.8, label=f"Cluster {c}")
-    # plot centers
-    plt.scatter(centers_orig["avg_wait"], centers_orig["p95_wait"], s=160, marker="X", edgecolor="k", linewidths=1.0,
-                label="Centers")
-    plt.xlabel("Daily Average Wait (min)")
-    plt.ylabel("Daily 95th Percentile Wait (min)")
-    plt.title("KMeans Clusters of Days (Avg vs P95) k=2")
-    plt.grid(True, linewidth=0.3, linestyle="--")
-    plt.legend()
-    plt.tight_layout()
-    plt.savefig("/Users/alysaderks/repos/machine_learning_website/app/static/figures/k_means_clustered_k_2.png")
-    plt.show()
+    # Clustered plots for k=2..5
+    for k in range(2, 6):
+        km, labels, centers_orig = k_means_clustering(day_feats[feature_cols], n_clusters=k)
+        plot_clusters(
+            day_feats, labels, centers_orig, k,
+            save_path=f"/Users/alysaderks/repos/machine_learning_website/app/static/figures/k_means_clustered_k_{k}.png"
+        )
+        plt.show()
 
 
 if __name__ == "__main__":

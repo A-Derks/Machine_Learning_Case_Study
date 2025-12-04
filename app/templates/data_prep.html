@@ -9,35 +9,122 @@
     World. The core endpoint used was https://queue-times.com/parks/{park_id}/queue_times.json where {park_id}
     corresponds to a specific park, such as 6 for Magic Kingdom. For example, calling GET https://queue-times.com/parks/6/queue_times.json
     returns all current ride wait times at Magic Kingdom in JSON format, including fields for ride names, lands,
-    wait times, and whether rides are open or closed. I have written a cron job to scrape the Queue-Times API every
-    15 minutes for the rest of the semester to collect a sufficient amount of wait time data. These two sources
+    wait times, and whether rides are open or closed. I have written a cron job which scraped the Queue-Times API every
+    15 minutes from September 1, 2025 through December 3, 2025 to collect a sufficient amount of wait time data. These two sources
     together provided both historical daily crowd-level data and real-time ride-level wait times. Collecting
     from these sites allowed me to compile a dataset that reflected both long-term patterns and up-to-the-minute
     guest experiences, making it possible to study wait times in a way that is both practical and rooted in
     real-world park conditions.
 
-    **Note that for the purpose of part 1 of this project, I collected data from WDW Passport from May 2025 to September
-    2025. However, the Queue-Times data is only real time data, so I only have data from September 1, 2025 onward.
-    As time goes on and more data is collected, I will only use data from September 1 onwards from both data sources.</p>
+    **Note that for this project, I collected data from WDW Passport from May 2025 to September
+    2025. However, the Queue-Times data is only real time data, so I only have data from when I was scraping (i.e. September 1, 2025 through December 3, 2025).</p>
 
 <h2>Visualizations</h2>
-<img src="{{ url_for('static', path='figures/01_crowd_index_over_time.png') }}" alt="Crowd Index Over Time" width="600">
 
-<img src="{{ url_for('static', path='figures/02_dow_crowd_index_bars.png') }}" alt="Day of Week Crowd Index" width="600">
+    <div style="display:flex; gap:20px; flex-wrap:wrap; justify-content:center; align-items:flex-start; margin-bottom: 24px;">
 
-<img src="{{ url_for('static', path='figures/03_avg_wait_by_ride.png') }}" alt="Avg Wait by Ride" width="600">
+      <figure style="flex:1 1 420px; max-width:480px; margin:0;">
+        <img src="{{ url_for('static', path='figures/wdwpassport_raw.png') }}"
+             alt="WDW Passport Raw"
+             style="width:100%; height:auto; display:block;">
+        <figcaption style="text-align:center;">
+          Fig. 1. Raw daily historical crowd index data from WDW Passport.
+        </figcaption>
+      </figure>
 
-<img src="{{ url_for('static', path='figures/04_wait_time_histogram.png') }}" alt="Wait Time Frequencies" width="600">
+      <figure style="flex:1 1 420px; max-width:480px; margin:0;">
+        <img src="{{ url_for('static', path='figures/wdwpassport_clean.png') }}"
+             alt="WDW Passport Clean"
+             style="width:100%; height:auto; display:block;">
+        <figcaption style="text-align:center;">
+          Fig. 2. Cleaned daily historical crowd index data from WDW Passport.
+        </figcaption>
+      </figure>
 
-<img src="{{ url_for('static', path='figures/05_hourly_wait_heatmap.png') }}" alt="Hourly Wait Time Heatmap" width="600">
+    </div>
 
-<img src="{{ url_for('static', path='figures/06_peak_vs_avg_daily_bars.png') }}" alt="Avg v Peak Wait Times" width="600">
+    <div style="display:flex; gap:20px; flex-wrap:wrap; justify-content:center; align-items:flex-start; margin-bottom: 24px;">
 
-<img src="{{ url_for('static', path='figures/07_monthly_boxplot_crowd_index.png') }}" alt="Monthly Crowd Index" width="600">
+      <figure style="flex:1 1 420px; max-width:480px; margin:0;">
+        <img src="{{ url_for('static', path='figures/queue_times_raw.png') }}"
+             alt="Queue Times Raw"
+             style="width:100%; height:auto; display:block;">
+        <figcaption style="text-align:center;">
+          Fig. 3. Raw real-time WDW wait times from Queue Times API.
+        </figcaption>
+      </figure>
 
-<img src="{{ url_for('static', path='figures/07_monthly_boxplot_daily_avg_wait.png') }}" alt="Monthly Daily Avg Wait" width="600">
+      <figure style="flex:1 1 420px; max-width:480px; margin:0;">
+        <img src="{{ url_for('static', path='figures/queue_times_clean.png') }}"
+             alt="Queue Times Clean"
+             style="width:100%; height:auto; display:block;">
+        <figcaption style="text-align:center;">
+          Fig. 4. Cleaned real-time WDW wait times from Queue Times API.
+        </figcaption>
+      </figure>
 
-<img src="{{ url_for('static', path='figures/08_ride_uptime.png') }}" alt="Ride Uptimes" width="600">
+    </div>
 
-<img src="{{ url_for('static', path='figures/crowd_vs_wait_bar_daily.png') }}" alt="Crowd Index v Wait Times" width="600">
+
+    <figure>
+      <img src="{{ url_for('static', path='figures/01_crowd_index_over_time.png') }}"
+           alt="Crowd Index Over Time" width="600" style="display:block; margin:0 auto;">
+      <figcaption style="text-align:center;">Fig. 5. Daily crowd index over time, showing how park busyness rises and falls.</figcaption>
+    </figure>
+
+    <figure>
+      <img src="{{ url_for('static', path='figures/02_dow_crowd_index_bars.png') }}"
+           alt="Day of Week Crowd Index" width="600" style="display:block; margin:0 auto;">
+      <figcaption style="text-align:center;">Fig. 6. Average crowd index by day of week.</figcaption>
+    </figure>
+
+    <figure>
+      <img src="{{ url_for('static', path='figures/03_avg_wait_by_ride.png') }}"
+           alt="Avg Wait by Ride" width="600" style="display:block; margin:0 auto;">
+      <figcaption style="text-align:center;">Fig. 7. Mean wait time by ride.</figcaption>
+    </figure>
+
+    <figure>
+      <img src="{{ url_for('static', path='figures/04_wait_time_histogram.png') }}"
+           alt="Wait Time Frequencies" width="600" style="display:block; margin:0 auto;">
+      <figcaption style="text-align:center;">Fig. 8. Distribution of wait-time observations.</figcaption>
+    </figure>
+
+    <figure>
+      <img src="{{ url_for('static', path='figures/05_hourly_wait_heatmap.png') }}"
+           alt="Hourly Wait Time Heatmap" width="600" style="display:block; margin:0 auto;">
+      <figcaption style="text-align:center;">Fig. 9. Hourly heatmap of average waits.</figcaption>
+    </figure>
+
+    <figure>
+      <img src="{{ url_for('static', path='figures/06_peak_vs_avg_daily_bars.png') }}"
+           alt="Avg v Peak Wait Times" width="600" style="display:block; margin:0 auto;">
+      <figcaption style="text-align:center;">Fig. 10. Side-by-side comparison of daily average vs. peak wait times.</figcaption>
+    </figure>
+
+    <figure>
+      <img src="{{ url_for('static', path='figures/07_monthly_boxplot_crowd_index.png') }}"
+           alt="Monthly Crowd Index" width="600" style="display:block; margin:0 auto;">
+      <figcaption style="text-align:center;">Fig. 11. Monthly boxplots of crowd index.</figcaption>
+    </figure>
+
+    <figure>
+      <img src="{{ url_for('static', path='figures/07_monthly_boxplot_daily_avg_wait.png') }}"
+           alt="Monthly Daily Avg Wait" width="600" style="display:block; margin:0 auto;">
+      <figcaption style="text-align:center;">Fig. 12. Monthly boxplots of daily average wait time.</figcaption>
+    </figure>
+
+    <figure>
+      <img src="{{ url_for('static', path='figures/08_ride_uptime.png') }}"
+           alt="Ride Uptimes" width="600" style="display:block; margin:0 auto;">
+      <figcaption style="text-align:center;">Fig. 13. Ride uptime percentages, indicating which attractions are most reliably open versus frequently down.</figcaption>
+    </figure>
+
+    <figure>
+      <img src="{{ url_for('static', path='figures/crowd_vs_wait_bar_daily.png') }}"
+           alt="Crowd Index v Wait Times" width="600" style="display:block; margin:0 auto;">
+      <figcaption style="text-align:center;">Fig. 14. Crowd index vs. daily wait time bar chart.</figcaption>
+    </figure>
+
+
 {% endblock %}

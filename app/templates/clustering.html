@@ -49,21 +49,25 @@
     </figure>
 
     <h3>Data Prep</h3>
-    <p>All models and methods require specific data formats. For example, supervised models like decision trees or neural
-        networks require labeled data, where each observation has both input features and an output label to learn from.
-        Clustering is an unsupervised learning method and therefore requires only unlabeled numeric data (a set of features
-        that describe each observation). The algorithm then measures the distance between data points using metrics such
+    <p>All models and methods require specific data formats. Clustering is an unsupervised learning method and therefore
+        requires only unlabeled numeric data. The algorithm then measures the distance between data points using metrics such
         as Euclidean distance, and groups points into clusters based on how close they are in feature space. This requirement
-        for numeric data is important, because clustering relies on mathematical operations (like calculating distances)
-        that are only meaningful with numbers. If your dataset includes non-numeric values such as categorical labels or text,
+        for numeric data is important, because clustering relies on mathematical operations (i.e. calculating distances)
+        that are only meaningful with numbers. If a dataset includes non-numeric values such as categorical labels or text,
         they must first be transformed into a numeric representation before clustering can be applied. </p>
 
-    <p>Here is a snippet of the cleaned data that will be used for clustering:
 
-    <img src="{{ url_for('static', path='figures/data_to_use_for_clustering.png') }}" alt="Clustering data" width="600">
-    <img src="{{ url_for('static', path='figures/k_means_unclustered.png') }}" alt="Unclustered data" width="600">
+    <figure>
+      <img src="{{ url_for('static', path='figures/data_to_use_for_clustering.png') }}" alt="Clustering data" width="600" style="display:block; margin:0 auto;">
+      <figcaption style="text-align:center;">Fig. 3. Cleaned data to be used for clustering.</figcaption>
+    </figure>
 
-    And <a href="https://github.com/A-Derks/CSCI_5612_project/blob/main/data/clean/queue_times_clean.csv">here</a> is a link to the data that I will be using
+    <figure>
+      <img src="{{ url_for('static', path='figures/k_means_unclustered.png') }}" alt="Unclustered data" width="600" style="display:block; margin:0 auto;">
+      <figcaption style="text-align:center;">Fig. 4. Data before clustering.</figcaption>
+    </figure>
+
+    <p><a href="https://github.com/A-Derks/CSCI_5612_project/blob/main/data/clean/queue_times_clean.csv">Here</a> is a link to the full data set that I will be using
         for clustering:</p>
 
 
@@ -73,45 +77,71 @@
     <h3>Results</h3>
 
     <h4>K-Means Clustering</h4>
-    <img src="{{ url_for('static', path='figures/silhouette_method.png') }}" alt="silhouette method" width="600">
-    <img src="{{ url_for('static', path='figures/k_means_clustered_k_2.png') }}" alt="k-means clustered k = 2" width="600">
-    <img src="{{ url_for('static', path='figures/k_means_clustered_k_3.png') }}" alt="k-means clustered k = 3" width="600">
-    <img src="{{ url_for('static', path='figures/k_means_clustered_k_4.png') }}" alt="k-means clustered k = 4" width="600">
-    <img src="{{ url_for('static', path='figures/k_means_clustered_k_5.png') }}" alt="k-means clustered k = 5" width="600">
+    <figure>
+      <img src="{{ url_for('static', path='figures/silhouette_method.png') }}" alt="silhouette method" width="600" style="display:block; margin:0 auto;">
+      <figcaption style="text-align:center;">Fig. 5. Silhouette analysis to determine the optimal number of clusters (k).</figcaption>
+    </figure>
+    <figure>
+      <img src="{{ url_for('static', path='figures/k_means_clustered_k_2.png') }}" alt="k-means clustered k = 2" width="600" style="display:block; margin:0 auto;">
+      <figcaption style="text-align:center;">Fig. 6. K means clustering analysis with k=2.</figcaption>
+    </figure>
+    <figure>
+      <img src="{{ url_for('static', path='figures/k_means_clustered_k_3.png') }}" alt="k-means clustered k = 3" width="600" style="display:block; margin:0 auto;">
+      <figcaption style="text-align:center;">Fig. 7. K means clustering analysis with k=3.</figcaption>
+    </figure>
+    <figure>
+      <img src="{{ url_for('static', path='figures/k_means_clustered_k_4.png') }}" alt="k-means clustered k = 4" width="600" style="display:block; margin:0 auto;">
+      <figcaption style="text-align:center;">Fig. 8. K means clustering analysis with k=4.</figcaption>
+    </figure>
+    <figure>
+      <img src="{{ url_for('static', path='figures/k_means_clustered_k_5.png') }}" alt="k-means clustered k = 5" width="600" style="display:block; margin:0 auto;">
+      <figcaption style="text-align:center;">Fig. 9. K means clustering analysis with k=5.</figcaption>
+    </figure>
 
-    <p>Using k-means clustering, the silhouette analysis showed that k = 2 provides the best clustering solution, meaning the data naturally separates
-        into two clear groups. These clusters represent quiet to moderately busy days and peak busy days, offering a simple
-        but powerful distinction. While other visualizations with k = 3, 4, or 5 revealed more granular splits—such as
-        separating different levels of moderate days—these additional clusters were less distinct and added complexity
-        (even overfitting with k = 5) without clear interpretive benefit. By contrast, k = 2 maximizes cluster cohesion and
-        separation, giving the most meaningful and interpretable grouping for understanding overall crowd patterns in the parks.</p>
+    <p>Looking at the k-means results, the silhouette plot points to k = 2 as the most natural choice. In the k=2 scatter plot,
+        the days fall into two clean, well-separated groups: one cluster centered around lower average and lower 95th-percentile
+        waits (calmer or typical days), and a second cluster grouped at noticeably higher waits (the clearly busy days). When
+        you force k=3 or k=4, the algorithm mostly chops up that lower-wait region into smaller “sub-types” of moderate days,
+        but those splits overlap a lot and don’t form new, sharply separated patterns. With k=5, the clusters get even more
+        fragmented—especially in the middle of the plot—so you’re adding complexity without gaining a clearer story about crowd
+        behavior. Overall, k=2 keeps the interpretation simple and meaningful: Disney days in this dataset mostly behave like
+        either normal/moderate days or peak-crowd days, and that two-group structure is the strongest signal in the data.</p>
 
     <h4>Hierarchical Clustering</h4>
-    <img src="{{ url_for('static', path='figures/hierarchical_clustering_(k=2).png') }}" alt="hierarchical cluserting k=2" width="600">
-    <img src="{{ url_for('static', path='figures/dendrogram.png') }}" alt="dendrogram" width="600">
-    <img src="{{ url_for('static', path='figures/silhouette_scores.png') }}" alt="hierarchical silhouette scores" width="600">
+    <figure>
+      <img src="{{ url_for('static', path='figures/silhouette_scores.png') }}" alt="hierarchical silhouette scores" width="600" style="display:block; margin:0 auto;">
+      <figcaption style="text-align:center;">Fig. 10. Hierarchical silhouette analysis to determine the optimal number of clusters (k).</figcaption>
+    </figure>
+    <figure>
+      <img src="{{ url_for('static', path='figures/hierarchical_clustering_(k=3).png') }}" alt="hierarchical cluserting k=3" width="600" style="display:block; margin:0 auto;">
+      <figcaption style="text-align:center;">Fig. 11. Hierarchical clustering with k=3 clusters.</figcaption>
+    </figure>
+    <figure>
+      <img src="{{ url_for('static', path='figures/dendrogram.png') }}" alt="dendrogram" width="600" style="display:block; margin:0 auto;">
+      <figcaption style="text-align:center;">Fig. 12. Hierarchical clustering dendrogram.</figcaption>
+    </figure>
 
-    <p>Using hierarchical clustering, the silhouette analysis shows that the best separation is achieved with k = 2, where the
-        silhouette score is highest (~0.79). This suggests that the data naturally forms two strong clusters under cosine
-        similarity. The scatter plot confirms this, showing one group of quiet-to-moderate wait days and another cluster of
-        higher-wait days. Unlike k-means, which partitions around centroids, hierarchical clustering emphasizes the relative
-        similarity between all pairs of days, and cosine distance in particular groups days with similar shapes of wait patterns
-        rather than just magnitudes. The dendrogram further supports this interpretation, showing two major branches where days
-        within each branch are tightly related. </p>
+    <p>Using hierarchical clustering with Euclidean distance, the silhouette analysis indicates that the best separation occurs
+        at k = 3, where the silhouette score reaches its maximum (about 0.61). This suggests the day-level wait-time data
+        naturally breaks into three meaningful groups rather than just two. In the cluster scatter plot, these three clusters
+        appear as a low-wait group (quiet days), a middle band of moderate waits, and a high-wait group (peak crowd days).</p>
 
-    <p>Overall, the hierarchical results align with the k-means outcome, but the dendrogram provides added interpretability by
-        revealing how days merge step by step, making it clear that Disney park days tend to fall into two distinct categories:
-        less crowded versus heavily crowded.</p>
+    <p>The dendrogram supports this three-group structure by showing how days merge into larger branches step by step. At lower
+        linkage heights, days within each tier combine tightly, while the larger jumps between branches highlight clear gaps
+        between quiet, moderate, and peak days. Overall, the hierarchical results align with the k-means story of “different
+        types of crowd days,” but here the tree view makes it especially clear that Disney days tend to organize into three
+        distinct crowd levels, not just a simple busy/not-busy split.</p>
 
 
     <h3>Conclusions</h3>
-    <p>Applying both k-means and hierarchical clustering provided consistent and meaningful insights into daily Disney park patterns.
-        Despite using different clustering methods, both methods converged on the finding that the data naturally separates into two
-        main categories of days. These clusters represent quiet-to-moderate crowd days and high-intensity crowd days, confirming that
-        wait times and guest experiences at Disney parks are not evenly distributed but instead fall into clear, recurring patterns.
-        This outcome is valuable for the project because it demonstrates that unsupervised methods can uncover underlying structures
-        in the data without prior labels. By identifying these distinct day types, the analysis helps frame the broader goal of the
-        project: improving understanding of crowd behavior and wait time dynamics in theme parks. These results suggest that future
-        predictive models could benefit from recognizing and adapting to these natural day groupings, ultimately offering more
-        accurate and practical tools for managing expectations and planning park visits.</p>
+    <p>Applying both k-means and hierarchical clustering provided consistent and meaningful insights into daily Disney park
+        patterns. While the two methods use different logic, they both show that park days fall into a small number of
+        repeatable crowd “types.” K-means clustering highlighted a strong split between lower-wait days and high-intensity
+        crowd days, giving a clear, high-level view of quiet versus peak conditions. Hierarchical clustering refined this
+        picture by separating days into three tiers—quiet, moderate, and peak—showing that there is also a distinct middle
+        category of guest experiences. This outcome is valuable for the project because it demonstrates that unsupervised
+        methods can uncover underlying structure in the data without prior labels. By identifying these natural day groupings,
+        the analysis helps frame the broader goal of understanding crowd behavior and wait-time dynamics in theme parks.
+        These results suggest that future predictive models could benefit from recognizing and adapting to these crowd tiers,
+        ultimately offering more accurate and practical tools for managing expectations and planning park visits.</p>
 {% endblock %}
