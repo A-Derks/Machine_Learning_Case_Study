@@ -16,8 +16,7 @@
         — making them ideal for building fast, effective baseline models in classification problems.</p>
 
     <h3>Data Prep</h3>
-    <p>All machine learning models require data in a specific structure, and supervised learning methods like Naive Bayes
-        depend on labeled data— i.e., examples where the “correct” outcome is already known. In this project, the labels
+    <p>Naive Bayes depend on labeled data. In this project, the labels
         represent whether a given day at Walt Disney World was “busy” or “not busy.” These labels were created directly from
         the ride wait-time data, using the 95th percentile of daily wait times (p95_wait) as an indicator of park crowd levels.
         Specifically, any day with a p95 wait time greater than or equal to 40 minutes was labeled as busy, while days below
@@ -33,8 +32,7 @@
 
     <p>The Training and Testing sets were created by taking daily aggregates from the raw queue_times data to produce the
         features used for modeling: average wait time (avg_wait), median wait time (med_wait), 95th percentile wait time
-        (p95_wait), and percentage of open rides (pct_open). Below is a small sample of the labeled dataset used for Naive
-        Bayes training and testing.</p>
+        (p95_wait), and percentage of open rides (pct_open).</p>
 
     <figure>
         <img src="{{ url_for('static', path='figures/nb_labeled_sample.png') }}" alt="NB Labeled Sample" width="600" style="display: block; margin-left: auto; margin-right: auto;">
@@ -42,7 +40,7 @@
             Fig. 1
         </figcaption>
         <figcaption style="text-align: center;">
-            Sample of labeled data showing daily average, median, and 95th percentile wait times along with “busy”/“not_busy” labels.
+            Sample of labeled data showing daily average, median, and 95th percentile wait times along with “busy”/“not_busy” labels to be used for Naive Bayes training and testing.
         </figcaption>
     </figure>
 
@@ -63,30 +61,35 @@
     <p>This data preparation process ensures that the Naive Bayes model is trained on representative, clean, and well-labeled
         data—setting a solid foundation for reliable performance evaluation.</p>
 
-    <p><a href="https://github.com/A-Derks/Machine_Learning_Case_Study/blob/main/data/clean/nb_labeled_day_sample.csv">Here</a> is a link to the data that I will be using
+    <p><a href="https://github.com/A-Derks/Machine_Learning_Case_Study/blob/main/data/clean/nb_labeled_day_sample.csv">Here</a> is a link to the full dataset that I will be using
         for NB classification</p>
 
     <h3>Code</h3>
     <p><a href="https://github.com/A-Derks/Machine_Learning_Case_Study/blob/main/naive_bayes.py">Here</a> is a link to my Naive Bayes code.</p>
 
     <h3>Results</h3>
-    <p>After training the Naive Bayes classifier on the daily wait-time data, the model performed perfectly on the held-out
-        test set. The labeling rule defined “busy” days as those where the 95th-percentile wait time (p95_wait) was greater
-        than or equal to 40 minutes, while lower-wait days were labeled “not_busy.” Out of 26 days of data, 17 were labeled
-        busy and 9 not busy. The training set contained 20 days, and the test set contained 6 days, maintaining the same class
-        proportions.</p>
+    <p>After training the Naive Bayes classifier on the daily wait-time data, the model performed perfectly on the test
+        set. Out of 49 total days, 32 were labeled busy and 17
+        were labeled not busy. The training set contained 39 days (25 busy, 14 not_busy) and the test set contained 10 days
+        (7 busy, 3 not_busy), with stratification used to preserve class proportions across both sets.</p>
 
-    <p>The model achieved 100% accuracy, correctly predicting all six test samples. Both classes showed a precision, recall,
-        and F1-score of 1.000, indicating that the model was able to cleanly separate busy from not-busy days in this small
-        dataset. The confusion matrix below shows a perfect diagonal, meaning there were no false positives or false negatives—each
-        busy and not-busy day was correctly identified.</p>
+    <p>The model achieved 100% accuracy, correctly predicting all ten test samples. Both classes showed precision, recall,
+        and F1-score values of 1.000, indicating that the classifier separated busy from not-busy days extremely cleanly in
+        this dataset. The confusion matrix confirms this perfect performance: all 3 not_busy days and all 7 busy days were
+        classified correctly, producing no false positives and no false negatives.</p>
 
     <figure>
         <img src="{{ url_for('static', path='figures/confusion_matrix_nb.png') }}" alt="Confusion matrix" width="600" style="display: block; margin-left: auto; margin-right: auto;">
+        <figcaption style="text-align: center;">
+            Fig. 3
+        </figcaption>
+        <figcaption style="text-align: center;">
+            Naive Bayes confusion matrix
+        </figcaption>
     </figure>
 
-    <p>While the results look ideal, it’s important to note that this small dataset limits how much confidence we can place in
-        perfect accuracy—additional data across more days and seasons will help confirm whether these patterns generalize. Still,
+    <p>While the results look ideal, it’s important to note that this relatively small dataset limits how much confidence we can place in
+        perfect accuracy. Additional data across more days and seasons would help confirm whether these patterns generalize. Still,
         the outcome demonstrates that even simple features like average, median, and 95th-percentile wait times contain strong
         predictive information about overall park crowd levels.</p>
 
