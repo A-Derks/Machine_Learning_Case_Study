@@ -50,7 +50,7 @@ def save_confusion_matrix(y_true, y_pred, labels=("not_busy", "busy"),
     disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=list(labels))
 
     fig, ax = plt.subplots(figsize=(5, 4))
-    disp.plot(cmap="Blues", ax=ax, colorbar=False)
+    disp.plot(cmap="Blues", ax=ax, colorbar=True)
     ax.set_title("Confusion Matrix — Decision Tree")
     plt.tight_layout()
     plt.savefig(out_path, dpi=200, bbox_inches="tight")
