@@ -91,7 +91,7 @@ def save_confusion_matrix_plot(y_true, y_pred, labels=None, out_path="app/static
 
     # Plot
     fig, ax = plt.subplots(figsize=(5, 4))
-    disp.plot(cmap="Blues", ax=ax, colorbar=False)
+    disp.plot(cmap="Blues", ax=ax, colorbar=True)
     plt.title("Confusion Matrix — Naive Bayes Wait Time Model")
     plt.tight_layout()
     plt.savefig(out_path, dpi=200, bbox_inches="tight")
