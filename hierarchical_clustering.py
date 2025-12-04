@@ -114,8 +114,7 @@ def plot_clusters(features_df: pd.DataFrame, labels: np.ndarray, centers=None, t
     plt.legend()
     plt.tight_layout()
     plt.savefig(
-        f"/Users/alysaderks/repos/machine_learning_website/app/static/figures/hierarchical_clustering_{title_suffix}.png"
-    )
+        f"/Users/alysaderks/repos/machine_learning_website/app/static/figures/hierarchical_clustering_{title_suffix}.png")
     plt.show()
 
 
