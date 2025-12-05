@@ -62,15 +62,6 @@ def main():
     out_path = os.path.join("data/clean", "day_pca_components.csv")
     out.to_csv(out_path, index=False)
 
-    # Loadings (feature contributions to each PC)
-    loadings = pd.DataFrame(
-        pca.components_.T,
-        index=candidates,
-        columns=[f"PC{i+1}" for i in range(Xp.shape[1])]
-    )
-    load_path = os.path.join("data/clean", "day_pca_loadings.csv")
-    loadings.to_csv(load_path)
-
     # Scree plot (variance explained)
     evr = pca.explained_variance_ratio_
     plt.figure(figsize=(7,4))

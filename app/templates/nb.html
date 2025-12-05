@@ -19,7 +19,7 @@
     <p>Naive Bayes depend on labeled data. In this project, the labels
         represent whether a given day at Walt Disney World was “busy” or “not busy.” These labels were created directly from
         the ride wait-time data, using the 95th percentile of daily wait times (p95_wait) as an indicator of park crowd levels.
-        Specifically, any day with a p95 wait time greater than or equal to 40 minutes was labeled as busy, while days below
+        Busy days were defined as those at or above the median p95_wait (which was 40 minutes in this dataset), while days below
         that threshold were labeled as not busy. This approach balances the dataset and provides a practical way to define
         high-traffic versus low-traffic park days.</p>
 
