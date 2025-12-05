@@ -166,24 +166,42 @@ def viz5_hourly_heatmap(top_n=20):
 # 6) Peak vs Average Daily Wait
 # ----------------------------------------------------
 def viz6_peak_vs_avg():
-    # Daily average wait
-    avg = qt_day[["date", "avg_wait"]].dropna()
+    # --- Load cleaned dataset ---
+    df = pd.read_csv("data/clean/queue_times_clean.csv", parse_dates=["timestamp_utc", "date"])
 
-    # Daily peak wait across all rides
+    # Keep only what we need
+    df = df[["date", "ride", "wait_time", "is_open"]].dropna()
+    df = df[(df["wait_time"] >= 0) & (df["wait_time"] <= 300)]
+
+    if df.empty:
+        print("No cleaned data to plot.")
+        return
+
+    # --- Build day-level aggregates ---
+    # daily average wait across ALL rides/snapshots
+    qt_day = (df.groupby("date", as_index=False)
+                .agg(avg_wait=("wait_time", "mean")))
+
+    # daily max wait per ride
+    qt_day_ride_max = (df.groupby(["date", "ride"], as_index=False)
+                         .agg(max_wait=("wait_time", "max")))
+
+    # daily peak wait across rides (max of per-ride max)
     peak_by_day = (qt_day_ride_max
                    .groupby("date", as_index=False)["max_wait"]
                    .max()
                    .rename(columns={"max_wait": "peak_wait"}))
 
-    d = (pd.merge(avg, peak_by_day, on="date", how="inner")
+    d = (pd.merge(qt_day, peak_by_day, on="date", how="inner")
          .dropna()
-         .sort_values("date"))
+         .sort_values("date")
+         .reset_index(drop=True))
 
     if d.empty:
         print("No daily avg/peak data to plot.")
         return
 
-    # Auto-aggregate for readability
+    # --- Auto-aggregate for readability ---
     n = len(d)
     if n > 365:
         freq = "MS"  # month start
@@ -205,12 +223,28 @@ def viz6_peak_vs_avg():
              .dropna()
              .reset_index())
 
+    # --- Plot ---
     fig, ax = plt.subplots(figsize=(12, 6))
     x = np.arange(len(d))
     width = 0.45
 
     ax.bar(x - width / 2, d["avg_wait"], width=width, label="Daily Average Wait (min)")
     ax.bar(x + width / 2, d["peak_wait"], width=width, label="Daily Peak Wait (min)")
+
+    # --- Shade weekends (Fri–Sun) only for DAILY plots ---
+    if freq is None:
+        dow = d["date"].dt.dayofweek  # Mon=0 ... Sun=6
+        weekend = dow >= 4            # Fri(4), Sat(5), Sun(6)
+
+        i = 0
+        while i < len(d):
+            if weekend.iloc[i]:
+                start = i
+                while i + 1 < len(d) and weekend.iloc[i + 1]:
+                    i += 1
+                end = i
+                ax.axvspan(start - 0.5, end + 0.5, color="grey", alpha=0.15, zorder=0)
+            i += 1
 
     ax.set_title("Average vs Peak Daily Wait")
     ax.set_xlabel("Date")
@@ -220,7 +254,18 @@ def viz6_peak_vs_avg():
     ax.grid(True, axis="y", linestyle="--", linewidth=0.3)
     ax.legend(loc="upper left")
 
-    save_fig(fig, out_name)
+    plt.tight_layout()
+
+    # If you already have save_fig(fig, out_name), use it:
+    # save_fig(fig, out_name)
+
+    # Otherwise:
+    out_path = f"app/static/figures/{out_name}"
+    plt.savefig(out_path, dpi=200, bbox_inches="tight")
+    plt.close(fig)
+    print(f"Saved -> {out_path}")
+
+
 
 # ----------------------------------------------------
 # 7) Monthly Boxplots

@@ -55,19 +55,42 @@
     <h2>Q & A</h2>
 
     <p>Q.How do wait times fluctuate throughout the day, and what consistent patterns emerge in morning, afternoon, and evening periods?</p>
-    <p>A.</p>
+    <p>A. It turns out that waits follow a pretty classic theme-park curve: they’re lowest right after opening, climb steadily
+        through late morning, peak in early–mid afternoon when the park is most saturated, then ease off into the evening. The hourly heatmap (see Fig 9 in the Data Prep tab)
+        shows this repeatable rise-peak-fall shape, with the afternoon block producing the most frequent high waits and the early
+        morning being the most reliably “low-wait” window.</p>
 
     <p>Q. How do peak daily wait times compare to average daily wait times, and what does this show about variability and predictability of waits?</p>
-    <p>A.</p>
+    <p>A. Peaks are consistently higher than daily averages, often by a wide margin. The side-by-side peak vs. average bar chart
+        (see Fig 10 in the Data Prep tab) shows that averages smooth over “spikes,” while peaks capture the real pain points
+        guests feel. That gap implies waits are variable within a day: even on moderate days there are short high-wait surges,
+        and on busy days the peaks explode upward. So averages are useful for overall day type, but peaks are better for
+        identifying worst-case guest experience.</p>
 
     <p>Q. Which features (weather, holidays, ride type, park capacity, time of day) provide the strongest predictive power in wait time models?</p>
-    <p>A.</p>
+    <p>A. Operational and demand signals dominate. The clearest predictors were wait-time distribution features (avg/median waits)
+        and park operations (percent of rides open). AdaBoost’s feature importance, in particular, showed pct_open as the strongest
+        single driver, with avg/median waits adding secondary power. Time-of-day also matters strongly for within-day prediction
+        (morning vs afternoon), while ride type/popularity explains differences between rides. Weather/holidays likely matter,
+        but there was not enough data collected to accurately test these.</p>
 
     <p>Q. What seasonal or monthly patterns can be observed in wait times, and how do special events or holidays amplify these effects?</p>
-    <p>A.</p>
+    <p>A. There is not currently enough data to definitively make any conclusions about monthly patters and if holidays or special events
+        impact these patterns. However, even with the current amount of data, the monthly boxplots (see Fig.s 11 and 12. in the Data Prep tab)
+        start to show clustering of higher waits in peak travel seasons and lower waits in off-season months. Holiday/event periods amplify
+        this by shifting entire days upward — the wait distributions (see Fig 10 in the Data Prep tab) show that “busy-season” days aren’t just slightly higher,
+        they create a distinct high-wait regime (the upper orange cluster in Fig 6 in the Clustering tab.).</p>
 
     <p>Q. How do wait times differ between weekdays and weekends, and what implications does this have for guest planning and staffing?</p>
-    <p>A.</p>
+    <p>A. Wait times are consistently higher on weekends than on weekdays, with the difference showing up most strongly in the peak waits
+        (see Fig 10 in the Data Prep tab). Weekends (Fri–Sun) repeatedly coincide with taller peak wait time, meaning the worst lines tend
+        to spike more often and to higher levels on weekends, while weekdays sit lower and look more stable. Average waits also rise on
+        many weekends, but the increase is smaller than the jump in peak waits, suggesting weekends mainly add extra crowd surges and
+        variability rather than shifting every wait upward equally. For guests, this means mid-week visits are typically more predictable
+        and less likely to involve extreme lines, while weekend trips require earlier arrivals and more careful ride prioritization to
+        avoid peak congestion. For staffing and park operations, the weekend pattern implies a need for heavier staffing, smoother ride
+        uptime, and more active crowd dispersal strategies, since weekend demand produces sharper spikes that can quickly overwhelm
+        capacity if not managed.</p>
 
     <p>Q. What clusters of rides or days emerge from grouping wait time patterns, and what do these clusters reveal about ride popularity or crowd behavior?</p>
     <p>A.</p>
