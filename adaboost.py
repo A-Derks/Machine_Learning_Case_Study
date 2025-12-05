@@ -101,7 +101,7 @@ def save_conf_mat(y_true, y_pred, out_path):
     disp = ConfusionMatrixDisplay(cm, display_labels=labels)
 
     fig, ax = plt.subplots(figsize=(5, 4))
-    disp.plot(cmap="Blues", ax=ax, colorbar=False)
+    disp.plot(cmap="Blues", ax=ax, colorbar=True)
     ax.set_title("AdaBoost Confusion Matrix (Best Settings)")
     plt.tight_layout()
     plt.savefig(out_path, dpi=200, bbox_inches="tight")

@@ -93,18 +93,28 @@
         capacity if not managed.</p>
 
     <p>Q. What clusters of rides or days emerge from grouping wait time patterns, and what do these clusters reveal about ride popularity or crowd behavior?</p>
-    <p>A.</p>
+    <p>A. Clustering days by average and high-percentile waits repeatedly produced two major day types (see Fig 6 in the clustering tab): 1. low-to-moderate “normal”
+        days, and 2. high-intensity peak-crowd days. Hierarchical clustering suggested a three-tier structure (quiet / moderate / peak) (see Fig 11 in the clustering
+        tab), basically splitting the “normal” bucket into two levels. Together, these clusters show crowd behavior isn’t continuous — Disney days fall into recurring
+        regimes, which is useful for forecasting and planning. </p>
 
     <p>Q. What metrics are most appropriate for evaluating the accuracy of wait time predictions, and why?</p>
-    <p>A.</p>
+    <p>A. Using a classification algorithm (Decision Tree, Naive Bayes and AdaBoost), accuracy plus a confusion matrix are appropriate because classes are
+        fairly balanced and we care about correct day-type calls. Precision/recall/F1 scores add detail about
+        which class is harder.</p>
 
     <p>Q. How do weather conditions, such as temperature or rainfall, affect both ride availability and guest behavior in the parks?</p>
-    <p>A.</p>
+    <p>A. I did not find any weather data to answer this question.</p>
 
     <p>Q. Which rides experience the most downtime or closures, and how does this impact overall park wait time distributions?</p>
-    <p>A.</p>
+    <p>A. Certain attractions have noticeably lower open percentages (see Fig 13 in the Data Prep tab). When they go down, demand
+        shifts to remaining rides, raising average waits and especially the daily upper tail. Therefore, uptime is informative
+        for predicting high-wait days.</p>
 
     <p>Q. What overall patterns in guest behavior and crowd management can be inferred from analyzing wait times over an extended period?</p>
-    <p>A.</p>
+    <p>A. This project suggests that guest flow creates stable, repeatable structures: predictable daily cycles, strong weekend effects,
+        and recurring “day regimes” (quiet/moderate/peak). The amount of rides open acts like a throttle on these behaviors. In short:
+        crowds aren’t random — they follow a few dominant patterns that machine learning can learn early, which supports this project’s core
+        idea that wait times are both measurable and forecastable with simple but well-chosen features.</p>
 
 {% endblock %}
