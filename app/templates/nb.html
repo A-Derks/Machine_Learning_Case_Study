@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>NB</h1>
+<h1>Naive Bayes</h1>
     <h3>Overview</h3>
     <p>Naive Bayes (NB) is a simple yet powerful machine learning algorithm based on Bayes’ Theorem, which describes the
         probability of an event occurring given prior knowledge of related conditions. It assumes that all features are
@@ -43,10 +43,6 @@
             Sample of labeled data showing daily average, median, and 95th percentile wait times along with “busy”/“not_busy” labels to be used for Naive Bayes training and testing.
         </figcaption>
     </figure>
-
-    <p>After labeling, the dataset was split into 80% training and 20% testing, ensuring that both classes (busy and not busy)
-        were proportionally represented in each split. The training data is shown below (left), and the test data (right) is a
-        smaller subset used only for model evaluation.</p>
 
     <figure>
         <img src="{{ url_for('static', path='figures/train_test_split.png') }}" alt="Training and testing sets" width="600" style="display: block; margin-left: auto; margin-right: auto;">
