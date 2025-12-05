@@ -131,6 +131,36 @@
       that a compact boosted model with medium-strength learners captures the crowd signal most effectively without needing a large stack
       of estimators.</p>
 
+    <figure>
+      <img src="{{ url_for('static', path='figures/adaboost_accuracy_depth1.png') }}"
+           alt="AdaBoost depth 1" width="600"
+           style="display: block; margin-left: auto; margin-right: auto;">
+      <figcaption style="text-align: center;">Fig. 5</figcaption>
+        <figcaption style="text-align: center;">
+                AdaBoost test accuracy versus number of estimators using very shallow weak learners (depth = 1).
+            </figcaption>
+    </figure>
+
+    <figure>
+      <img src="{{ url_for('static', path='figures/adaboost_accuracy_depth2.png') }}"
+           alt="AdaBoost depth 2" width="600"
+           style="display: block; margin-left: auto; margin-right: auto;">
+      <figcaption style="text-align: center;">Fig. 6</figcaption>
+        <figcaption style="text-align: center;">
+                    AdaBoost test accuracy versus number of estimators using medium-depth weak learners (depth = 2).
+                </figcaption>
+    </figure>
+
+    <figure>
+      <img src="{{ url_for('static', path='figures/adaboost_accuracy_depth3.png') }}"
+           alt="AdaBoost depth 3" width="600"
+           style="display: block; margin-left: auto; margin-right: auto;">
+      <figcaption style="text-align: center;">Fig. 7</figcaption>
+        <figcaption style="text-align: center;">
+                AdaBoost test accuracy versus number of estimators using deeper weak learners (depth = 3).
+            </figcaption>
+    </figure>
+
     <p>The confusion matrix confirms where the model succeeds and where it struggles. All 7 busy days in the test set were predicted correctly,
       but 1 of the 3 not_busy days was mislabeled as busy. That produces one false positive for the busy class and one false negative for not_busy,
       which is why busy recall is perfect (1.00) while not_busy recall is lower (0.67). Overall, AdaBoost still separates crowd-heavy and crowd-light
