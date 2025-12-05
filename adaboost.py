@@ -211,6 +211,8 @@ def main():
     print("X_train:", X_train.shape)
     print("X_test :", X_test.shape)
 
+    run_adaboost(X_train, X_test, y_train, y_test, feature_names)
+
 
 if __name__ == "__main__":
     main()
