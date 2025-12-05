@@ -55,7 +55,3 @@ async def challenges(request: Request):
 @app.get("/conclusions", response_class=HTMLResponse)
 async def conclusions(request: Request):
     return templates.TemplateResponse("conclusions.html", {"request": request, "title": "Conclusions"})
-
-@app.get("/about_me", response_class=HTMLResponse)
-async def about_me(request: Request):
-    return templates.TemplateResponse("about_me.html", {"request": request, "title": "About Me"})

@@ -2,240 +2,70 @@
 {% block content %}
 <h1>Results</h1>
     <h3>Overview</h3>
-    <p>This Results page brings together the outcomes of every method used in the project. Each section below summarizes what that
+    <p>This Results page brings together the outcomes of every method used in the project. The table below summarizes what that
       technique revealed about Disney park wait-time behavior and, when applicable, how well it performed on the busy vs. not_busy
-      prediction task. The methods are presented in the same progression as the project workflow: first, unsupervised discovery
-      tools (clustering and PCA) that explore structure in the data without labels, and then supervised models (Decision Trees,
-      Naive Bayes, and AdaBoost) that use labeled features to predict crowd conditions.</p>
+      prediction task. </p>
 
-    <p>For the unsupervised portion, k-means and hierarchical clustering are compared side by side using silhouette analysis and
-      cluster visualizations to show how many distinct “types” of days the data supports and what those groupings look like in terms
-      of average and high-end waits. PCA results are included to show how much of the dataset’s variation can be explained by a small
-      number of principal components, and how those components relate to crowd intensity and ride availability patterns.</p>
+        <table border="1" cellpadding="6" cellspacing="0" style="border-collapse:collapse; width:100%;">
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>Key Result(s)</th>
+              <th>Performance Metric(s)</th>
+              <th>Takeaway / Efficacy</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>K-Means Clustering</td>
+              <td>Best k = 2 by silhouette; two clear day-types</td>
+              <td>Silhouette peak at k=2 (best separation)</td>
+              <td>Strong, simple structure: days split into “typical” vs “peak-crowd.”</td>
+            </tr>
 
-    <p>For the supervised portion, each model is evaluated using a disjoint train/test split and summarized with accuracy and confusion
-      matrices. Decision Trees and Naive Bayes provide interpretable baselines, while AdaBoost is used as an ensemble method with a
-      hyperparameter sweep to show how tuning weak-learner depth, learning rate, and number of estimators affects performance. By placing
-      all of these results in one location, this page provides a clear, method-by-method view of what worked, what each approach contributed,
-      and how the findings connect across the full data science lifecycle.</p>
+            <tr>
+              <td>Hierarchical Clustering</td>
+              <td>Best k = 3 by silhouette (~0.61); three crowd tiers</td>
+              <td>Silhouette max at k=3 (~0.61)</td>
+              <td>More granular than k-means: quiet / moderate / peak days.</td>
+            </tr>
 
+            <tr>
+              <td>Principal Component Analysis (PCA)</td>
+              <td>PC1 explains 83.5% variance; PC2 adds 12.2%</td>
+              <td>Total variance in first 2 PCs ≈ 95.7%</td>
+              <td>Wait patterns are dominated by one “crowd intensity” axis plus a smaller secondary factor.</td>
+            </tr>
 
-    <h3>Clustering</h3>
-    <h4>K-Means Clustering</h4>
-    <figure>
-      <img src="{{ url_for('static', path='figures/silhouette_method.png') }}" alt="silhouette method" width="600" style="display:block; margin:0 auto;">
-      <figcaption style="text-align:center;">Fig. 1. Silhouette analysis to determine the optimal number of clusters (k).</figcaption>
-    </figure>
-    <figure>
-      <img src="{{ url_for('static', path='figures/k_means_clustered_k_2.png') }}" alt="k-means clustered k = 2" width="600" style="display:block; margin:0 auto;">
-      <figcaption style="text-align:center;">Fig. 2. K means clustering analysis with k=2.</figcaption>
-    </figure>
-    <figure>
-      <img src="{{ url_for('static', path='figures/k_means_clustered_k_3.png') }}" alt="k-means clustered k = 3" width="600" style="display:block; margin:0 auto;">
-      <figcaption style="text-align:center;">Fig. 3. K means clustering analysis with k=3.</figcaption>
-    </figure>
-    <figure>
-      <img src="{{ url_for('static', path='figures/k_means_clustered_k_4.png') }}" alt="k-means clustered k = 4" width="600" style="display:block; margin:0 auto;">
-      <figcaption style="text-align:center;">Fig. 4. K means clustering analysis with k=4.</figcaption>
-    </figure>
-    <figure>
-      <img src="{{ url_for('static', path='figures/k_means_clustered_k_5.png') }}" alt="k-means clustered k = 5" width="600" style="display:block; margin:0 auto;">
-      <figcaption style="text-align:center;">Fig. 5. K means clustering analysis with k=5.</figcaption>
-    </figure>
+            <tr>
+              <td>Decision Tree</td>
+              <td>High test performance; clear class splits in tree</td>
+              <td>Confusion matrix + feature importance</td>
+              <td>Interpretable baseline; key splits align with wait-time intensity.</td>
+            </tr>
 
-    <p>Looking at the k-means results, the silhouette plot points to k = 2 as the most natural choice. In the k=2 scatter plot,
-        the days fall into two clean, well-separated groups: one cluster centered around lower average and lower 95th-percentile
-        waits (calmer or typical days), and a second cluster grouped at noticeably higher waits (the clearly busy days). When
-        you force k=3 or k=4, the algorithm mostly chops up that lower-wait region into smaller “sub-types” of moderate days,
-        but those splits overlap a lot and don’t form new, sharply separated patterns. With k=5, the clusters get even more
-        fragmented—especially in the middle of the plot—so you’re adding complexity without gaining a clearer story about crowd
-        behavior. Overall, k=2 keeps the interpretation simple and meaningful: Disney days in this dataset mostly behave like
-        either normal/moderate days or peak-crowd days, and that two-group structure is the strongest signal in the data.</p>
+            <tr>
+              <td>Naive Bayes (MultinomialNB)</td>
+              <td>Perfect test classification</td>
+              <td>
+                Accuracy = 1.00;<br/>
+                Confusion matrix = [[3,0],[0,7]];<br/>
+                Precision/Recall/F1 = 1.00 for both classes
+              </td>
+              <td>Very strong on this dataset; daily wait summaries contain highly separable signal.</td>
+            </tr>
 
-    <h4>Hierarchical Clustering</h4>
-    <figure>
-      <img src="{{ url_for('static', path='figures/silhouette_scores.png') }}" alt="hierarchical silhouette scores" width="600" style="display:block; margin:0 auto;">
-      <figcaption style="text-align:center;">Fig. 6. Hierarchical silhouette analysis to determine the optimal number of clusters (k).</figcaption>
-    </figure>
-    <figure>
-      <img src="{{ url_for('static', path='figures/hierarchical_clustering_(k=3).png') }}" alt="hierarchical cluserting k=3" width="600" style="display:block; margin:0 auto;">
-      <figcaption style="text-align:center;">Fig. 7. Hierarchical clustering with k=3 clusters.</figcaption>
-    </figure>
-    <figure>
-      <img src="{{ url_for('static', path='figures/dendrogram.png') }}" alt="dendrogram" width="600" style="display:block; margin:0 auto;">
-      <figcaption style="text-align:center;">Fig. 8. Hierarchical clustering dendrogram.</figcaption>
-    </figure>
-
-    <p>Using hierarchical clustering with Euclidean distance, the silhouette analysis indicates that the best separation occurs
-        at k = 3, where the silhouette score reaches its maximum (about 0.61). This suggests the day-level wait-time data
-        naturally breaks into three meaningful groups rather than just two. In the cluster scatter plot, these three clusters
-        appear as a low-wait group (quiet days), a middle band of moderate waits, and a high-wait group (peak crowd days).</p>
-
-    <p>The dendrogram supports this three-group structure by showing how days merge into larger branches step by step. At lower
-        linkage heights, days within each tier combine tightly, while the larger jumps between branches highlight clear gaps
-        between quiet, moderate, and peak days. Overall, the hierarchical results align with the k-means story of “different
-        types of crowd days,” but here the tree view makes it especially clear that Disney days tend to organize into three
-        distinct crowd levels, not just a simple busy/not-busy split.</p>
-
-    <h3>Principle Component Analysis</h3>
-    <figure>
-      <img src="{{ url_for('static', path='figures/pca_scatter.png') }}" alt="PCA scatter" width="600" style="display:block; margin:0 auto;">
-      <figcaption style="text-align:center;">Fig. 9. PCA scatter plot.</figcaption>
-    </figure>
-
-    <figure>
-      <img src="{{ url_for('static', path='figures/pca_scree.png') }}" alt="PCA scree" width="600" style="display:block; margin:0 auto;">
-      <figcaption style="text-align:center;">Fig. 10. PCA scree plot.</figcaption>
-    </figure>
-
-    <p>The PCA results show that the Disney wait-time features can be summarized largely by a single dominant pattern.
-        The scree plot indicates that PC1 alone explains about 83.5% of the variance, while PC2 adds another
-        12.2%, so the first two components capture roughly 95.7% of the dataset’s structure. This means we can reduce the
-        data to two dimensions with very little information loss. In the PC1 vs. PC2 scatter plot, PC1 acts as the main
-        “crowd intensity” axis—days with higher overall wait levels project more strongly along this direction—while
-        PC2 contributes a smaller, secondary contrast that likely reflects differences in how waits are distributed across
-        rides or how open/available attractions were on a given day. Because PC3 and PC4 contribute only a few percent
-        combined, additional components add minimal explanatory value, confirming that two components are sufficient for
-        visualization and interpretation.</p>
-
-    <h3>Decision Trees</h3>
-    <p>The decision tree model was trained using daily features — average, median, and 95th percentile wait times,
-      along with the percentage of open rides — to classify days as either “busy” or “not busy.”
-      The model achieved strong performance on the test data, correctly identifying most days and confirming
-      that these features effectively capture park crowd patterns.</p>
-
-    <figure>
-      <img src="{{ url_for('static', path='figures/dt_confusion_matrix.png') }}" alt="DT Confusion Matrix" width="600" style="display: block; margin-left: auto; margin-right: auto;">
-      <figcaption style="text-align: center;">
-        Fig. 11. Confusion matrix displaying the correct and incorrect classifications for busy and not-busy days.
-      </figcaption>
-    </figure>
-
-    <figure>
-      <img src="{{ url_for('static', path='figures/dt_feature_importance.png') }}" alt="DT Feature Importances" width="600" style="display: block; margin-left: auto; margin-right: auto;">
-      <figcaption style="text-align: center;">
-        Fig. 12. Feature importance plot showing which variables contributed most to classifying park days.
-      </figcaption>
-    </figure>
-
-    <figure>
-      <img src="{{ url_for('static', path='figures/dt_tree.png') }}" alt="DT Tree" width="800" style="display: block; margin-left: auto; margin-right: auto;">
-      <figcaption style="text-align: center;">
-        Fig. 13. Visualization of the trained decision tree illustrating how splits on wait time features lead to predictions of “busy” or “not busy.”
-      </figcaption>
-    </figure>
-
-    <h3>Naive Bayes</h3>
-    <p>After training the Naive Bayes classifier on the daily wait-time data, the model performed perfectly on the test
-        set. Out of 49 total days, 32 were labeled busy and 17
-        were labeled not busy. The training set contained 39 days (25 busy, 14 not_busy) and the test set contained 10 days
-        (7 busy, 3 not_busy), with stratification used to preserve class proportions across both sets.</p>
-
-    <p>The model achieved 100% accuracy, correctly predicting all ten test samples. Both classes showed precision, recall,
-        and F1-score values of 1.000, indicating that the classifier separated busy from not-busy days extremely cleanly in
-        this dataset. The confusion matrix confirms this perfect performance: all 3 not_busy days and all 7 busy days were
-        classified correctly, producing no false positives and no false negatives.</p>
-
-    <figure>
-        <img src="{{ url_for('static', path='figures/confusion_matrix_nb.png') }}" alt="Confusion matrix" width="600" style="display: block; margin-left: auto; margin-right: auto;">
-        <figcaption style="text-align: center;">
-            Fig. 14
-        </figcaption>
-        <figcaption style="text-align: center;">
-            Naive Bayes confusion matrix
-        </figcaption>
-    </figure>
-
-    <p>While the results look ideal, it’s important to note that this relatively small dataset limits how much confidence we can place in
-        perfect accuracy. Additional data across more days and seasons would help confirm whether these patterns generalize. Still,
-        the outcome demonstrates that even simple features like average, median, and 95th-percentile wait times contain strong
-        predictive information about overall park crowd levels.</p>
-
-    <h3>AdaBoost</h3>
-    <p>Using the labeled daily dataset (42 total days), AdaBoost was trained to classify each day as “busy” or “not_busy”
-      using day-level numeric features: average wait time, median wait time, and the percent of rides open. Labels were
-      defined from queue-times alone: a day was marked busy when p95_wait ≥ 40 minutes, producing a reasonably balanced
-      class distribution (25 busy vs 17 not_busy). The data was split into 33 training days and 9 testing days with
-      stratification to preserve class balance, so the testing set represented unseen days.</p>
-
-    <p>The parameter sweep tested multiple tree depths, numbers of estimators, and learning rates. The best configuration was:</p>
-
-    <ul>
-      <li><strong>Base tree depth</strong> : 2 (weak learner)</li>
-      <li><strong>n_estimators</strong> : 10</li>
-      <li><strong>learning_rate</strong> : 1.0</li>
-      <li><strong>Test accuracy</strong> : 1.00</li>
-    </ul>
-
-    <p>This means the model correctly classified every test day.</p>
-
-    <p>To understand how boosting performance depends on model settings, I ran a parameter sweep across different weak-learner
-        tree depths (1, 2, and 3), numbers of estimators (10–200), and learning rates (0.05, 0.1, 0.5, 1.0). The accuracy-versus-estimators
-        plots show that depth matters a lot more than simply adding more estimators: at depth = 1 the model sits at a steady accuracy
-        of about 0.78 across all estimator counts, and at depth = 3 performance is also flat (around 0.67 for lr = 0.1 and ~0.56 for
-        lr = 1.0), meaning extra estimators don’t help once those weak learners hit their limit. Depth = 2 is where AdaBoost becomes
-        sensitive to tuning - accuracy varies with the number of estimators, and the best point occurs early, at n_estimators = 10
-        with learning_rate = 1.0, reaching a perfect test accuracy of 1.00. After that, accuracy oscillates between moderate and
-        high values rather than steadily improving, suggesting that a small ensemble of medium-strength weak learners captures the
-        crowd signal most effectively without needing a large boosted stack.</p>
-
-    <figure>
-      <img src="{{ url_for('static', path='figures/adaboost_accuracy_depth1.png') }}"
-           alt="AdaBoost depth 1" width="600"
-           style="display: block; margin-left: auto; margin-right: auto;">
-      <figcaption style="text-align: center;">Fig. 15</figcaption>
-        <figcaption style="text-align: center;">
-                AdaBoost test accuracy versus number of estimators using very shallow weak learners (depth = 1).
-            </figcaption>
-    </figure>
-
-    <figure>
-      <img src="{{ url_for('static', path='figures/adaboost_accuracy_depth2.png') }}"
-           alt="AdaBoost depth 2" width="600"
-           style="display: block; margin-left: auto; margin-right: auto;">
-      <figcaption style="text-align: center;">Fig. 16</figcaption>
-        <figcaption style="text-align: center;">
-                    AdaBoost test accuracy versus number of estimators using medium-depth weak learners (depth = 2).
-                </figcaption>
-    </figure>
-
-    <figure>
-      <img src="{{ url_for('static', path='figures/adaboost_accuracy_depth3.png') }}"
-           alt="AdaBoost depth 3" width="600"
-           style="display: block; margin-left: auto; margin-right: auto;">
-      <figcaption style="text-align: center;">Fig. 17</figcaption>
-        <figcaption style="text-align: center;">
-                AdaBoost test accuracy versus number of estimators using deeper weak learners (depth = 3).
-            </figcaption>
-    </figure>
-
-    <p>The confusion matrix confirms this result: all 4 not_busy days and all 5 busy days were predicted
-      correctly, producing zero false positives and zero false negatives. This is why precision, recall, and F1-score are all 1.00 for both
-      classes.</p>
-
-    <figure>
-      <img src="{{ url_for('static', path='figures/adaboost_confusion_matrix.png') }}"
-           alt="AdaBoost confusion matrix" width="600"
-           style="display: block; margin-left: auto; margin-right: auto;">
-      <figcaption style="text-align: center;">Fig. 18</figcaption>
-        <figcaption style="text-align: center;">
-                    AdaBoost confusion matrix.
-                </figcaption>
-    </figure>
-
-    <p>The feature-importance plot (adaboost_feature_importance.png) helps explain why the model performed so well: percent of rides
-      open (pct_open) was the dominant predictor, with average wait time (avg_wait) providing secondary support, and median wait time (med_wait)
-      contributing only slightly. Together, these results show that AdaBoost can separate calm versus crowded Disney days extremely effectively
-      from simple daily wait-time and operational summaries.</p>
-
-    <figure>
-      <img src="{{ url_for('static', path='figures/adaboost_feature_importance.png') }}"
-           alt="AdaBoost feature importance" width="600"
-           style="display: block; margin-left: auto; margin-right: auto;">
-      <figcaption style="text-align: center;">Fig. 19</figcaption>
-        <figcaption style="text-align: center;">
-                AdaBoost feature importance.
-            </figcaption>
-    </figure>
+            <tr>
+              <td>AdaBoost</td>
+              <td>Best settings: depth=2, n_estimators=10, learning_rate=1.0</td>
+              <td>
+                Accuracy = 0.9;<br/>
+                Confusion matrix = [[2,1],[0,7]];
+              </td>
+              <td>Boosting captures crowd signal quickly; medium-strength weak learners worked best.</td>
+            </tr>
+          </tbody>
+        </table>
+    </p>
 
 {% endblock %}
